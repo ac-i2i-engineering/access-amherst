@@ -4,6 +4,8 @@ from access_amherst_algo.rss_scraper.fetch_rss import fetch_rss
 from datetime import datetime
 
 # Mock function to replace `requests.get`
+
+
 @pytest.fixture
 def mock_requests_get():
     with patch('requests.get') as mock_get:
@@ -12,20 +14,24 @@ def mock_requests_get():
         yield mock_get
 
 # Test function for `fetch_rss`
+
+
 def test_fetch_rss(mock_requests_get):
     # Mock the file handling to prevent actual file creation
     with patch('builtins.open', mock_open()) as mock_file, \
-         patch('os.path.join') as mock_join:
-        
+            patch('os.path.join') as mock_join:
+
         # Define the expected file name
-        expected_filename = 'access_amherst_algo/rss_scraper/rss_files/hub_' + datetime.now().strftime('%Y_%m_%d_%H') + '.xml'
+        expected_filename = 'access_amherst_algo/rss_scraper/rss_files/hub_' + \
+            datetime.now().strftime('%Y_%m_%d_%H') + '.xml'
         mock_join.return_value = expected_filename
 
         # Call the function
         fetch_rss()
 
         # Check if the GET request was called with the correct URL
-        mock_requests_get.assert_called_once_with('https://thehub.amherst.edu/events.rss')
+        mock_requests_get.assert_called_once_with(
+            'https://thehub.amherst.edu/events.rss')
 
         # Check if the file was opened with the correct name and mode
         mock_file.assert_called_once_with(expected_filename, 'wb')

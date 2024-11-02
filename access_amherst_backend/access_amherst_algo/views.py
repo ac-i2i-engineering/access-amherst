@@ -15,30 +15,41 @@ import urllib.parse
 import re
 
 # View to run db_saver command
+
+
 def run_db_saver(request):
     call_command('db_saver')
     return redirect('../')
 
 # View to run events_list_creator command
+
+
 def run_events_list_creator(request):
     call_command('events_list_creator')
     return redirect('../')
 
 # View to run json_saver command
+
+
 def run_json_saver(request):
     call_command('json_saver')
     return redirect('../')
 
 # View to run rss_fetcher command
+
+
 def run_rss_fetcher(request):
     call_command('rss_fetcher')
     return redirect('../')
+
 
 def run_hub_data_cleaner(request):
     call_command('hub_data_cleaner')
     return redirect('../')
 
 # Home view with search functionality
+
+
 def home(request):
     # Get query, location filter, start and end date from request
     query = request.GET.get('query', '')
@@ -59,7 +70,8 @@ def home(request):
     events = events.distinct()
 
     # Get unique map locations for filtering
-    unique_locations = Event.objects.values_list('map_location', flat=True).distinct()
+    unique_locations = Event.objects.values_list(
+        'map_location', flat=True).distinct()
 
     # Pass context to template
     return render(request, 'access_amherst_algo/home.html', {
@@ -71,9 +83,12 @@ def home(request):
         'unique_locations': unique_locations
     })
 
+
 def map_view(request):
     # Fetch events with valid latitude and longitude
-    events = Event.objects.exclude(latitude__isnull=True).exclude(longitude__isnull=True)
+    events = Event.objects.exclude(
+        latitude__isnull=True).exclude(
+        longitude__isnull=True)
 
     # Initialize map centered around Amherst College
     amherst_college_coords = [42.37031303771378, -72.51605520950432]
@@ -112,7 +127,9 @@ def map_view(request):
 
     # Render map as HTML
     map_html = folium_map._repr_html_()
-    return render(request, 'access_amherst_algo/map.html', {'map_html': map_html})
+    return render(request,
+                  'access_amherst_algo/map.html',
+                  {'map_html': map_html})
 
 
 # Dashboard view for data insights
@@ -131,12 +148,17 @@ def data_dashboard(request):
 
     # Convert event hours to EST
     for event in events_by_hour:
-        start_time_utc = datetime.combine(datetime.now(), time(event['hour'])).replace(tzinfo=pytz.utc)
+        start_time_utc = datetime.combine(
+            datetime.now(), time(
+                event['hour'])).replace(
+            tzinfo=pytz.utc)
         start_time_est = start_time_utc.astimezone(est)
         event['hour'] = start_time_est.hour
 
     # Get categories with their associated hours
-    events_with_categories = events.exclude(categories__isnull=True).exclude(categories__exact='')
+    events_with_categories = events.exclude(
+        categories__isnull=True).exclude(
+        categories__exact='')
 
     category_data = []
     for event in events_with_categories:
@@ -145,8 +167,10 @@ def data_dashboard(request):
         for category in categories:
             # Convert to lowercase
             cleaned_category = category.strip().lower()
-            # Replace non-alphanumeric characters with spaces and remove extra spaces
-            cleaned_category = re.sub(r'[^a-z0-9]+', ' ', cleaned_category).strip()
+            # Replace non-alphanumeric characters with spaces and remove extra
+            # spaces
+            cleaned_category = re.sub(
+                r'[^a-z0-9]+', ' ', cleaned_category).strip()
             category_data.append({
                 'category': cleaned_category,
                 'hour': hour
@@ -170,18 +194,21 @@ def generate_heatmap(events, timezone, min_hour=None, max_hour=None):
             event_hour__gte=min_hour,
             event_hour__lte=max_hour
         )
-    
+
     # Convert to local time for accurate filtering
     filtered_heatmap_data = [
         [float(event.latitude), float(event.longitude)]
         for event in events if event.latitude and event.longitude
     ]
 
-    folium_map = folium.Map(location=[42.37284302722828, -72.51584816807264], zoom_start=17)
+    folium_map = folium.Map(
+        location=[
+            42.37284302722828, -72.51584816807264], zoom_start=17)
     if filtered_heatmap_data:
         HeatMap(filtered_heatmap_data).add_to(folium_map)
-    
+
     return folium_map._repr_html_()
+
 
 @csrf_exempt
 def update_heatmap(request):
@@ -194,6 +221,7 @@ def update_heatmap(request):
         # Filter events by the selected time range and generate updated heatmap
         events = Event.objects.all()
         est = pytz.timezone('America/New_York')
-        map_html = generate_heatmap(events, est, min_hour=min_hour, max_hour=max_hour)
+        map_html = generate_heatmap(
+            events, est, min_hour=min_hour, max_hour=max_hour)
 
         return JsonResponse({'map_html': map_html})

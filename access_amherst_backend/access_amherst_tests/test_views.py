@@ -6,9 +6,11 @@ from django.test import Client
 from django.utils import timezone
 from access_amherst_algo.models import Event
 
+
 @pytest.fixture
 def client():
     return Client()
+
 
 @pytest.fixture
 def create_events():
@@ -35,10 +37,12 @@ def create_events():
         categories='["Category2"]'
     )
 
+
 def test_run_rss_fetcher(client):
     response = client.get(reverse('run_rss_fetcher'))
     assert response.status_code == 302
     assert response.url == '../'
+
 
 def test_run_hub_data_cleaner(client):
     response = client.get(reverse('run_hub_data_cleaner'))
