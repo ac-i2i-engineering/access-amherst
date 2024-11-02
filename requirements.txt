@@ -6,6 +6,7 @@ celery
 pytest
 pytest-django
 pytest-cov
+pylint==3.2.7
 aiohappyeyeballs==2.4.3
 aiohttp==3.10.10
 aiosignal==1.3.1
