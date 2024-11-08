@@ -32,8 +32,137 @@
 
           <div class="body" role="main">
             
-  <section id="email-scraper">
-<h1>Email Scraper<a class="headerlink" href="#email-scraper" title="Link to this heading">¶</a></h1>
+  <section id="module-access_amherst_algo.email_scraper.email_parser">
+<span id="email-scraper"></span><h1>Email Scraper<a class="headerlink" href="#module-access_amherst_algo.email_scraper.email_parser" title="Link to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="access_amherst_algo.email_scraper.email_parser.connect_and_fetch_latest_email">
+<span class="sig-prename descclassname"><span class="pre">access_amherst_algo.email_scraper.email_parser.</span></span><span class="sig-name descname"><span class="pre">connect_and_fetch_latest_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject_filter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mail_server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'imap.gmail.com'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#access_amherst_algo.email_scraper.email_parser.connect_and_fetch_latest_email" title="Link to this definition">¶</a></dt>
+<dd><p>Connect to the email server and fetch the latest email matching a subject filter.</p>
+<p>This function connects to the specified IMAP email server (default is Gmail),
+logs in using the provided app password, and searches for the most recent email
+with a subject matching the <cite>subject_filter</cite>. It returns the email message object 
+of the latest matching email.</p>
+<dl>
+<dt>Args:</dt><dd><p>app_password (str): The app password used for logging into the email account.
+subject_filter (str): The subject filter used to search for specific emails.
+mail_server (str, optional): The IMAP email server address (default is 'imap.gmail.com').</p>
+</dd>
+<dt>Returns:</dt><dd><p>email.message.Message or None: The latest email message matching the filter, or None if no matching email is found or login fails.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">email</span> <span class="o">=</span> <span class="n">connect_and_fetch_latest_email</span><span class="p">(</span><span class="s2">&quot;amherst_college_password&quot;</span><span class="p">,</span> <span class="s2">&quot;Amherst College Daily Mammoth for Sunday, November 3, 2024&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">email</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">email</span><span class="p">[</span><span class="s2">&quot;From&quot;</span><span class="p">])</span>
+<span class="go">&#39;noreply@amherst.edu&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="access_amherst_algo.email_scraper.email_parser.extract_email_body">
+<span class="sig-prename descclassname"><span class="pre">access_amherst_algo.email_scraper.email_parser.</span></span><span class="sig-name descname"><span class="pre">extract_email_body</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#access_amherst_algo.email_scraper.email_parser.extract_email_body" title="Link to this definition">¶</a></dt>
+<dd><p>Connect to the email server and fetch the latest email matching a subject filter.</p>
+<p>This function connects to the specified IMAP email server (default is Gmail),
+logs in using the provided app password, and searches for the most recent email
+with a subject matching the <cite>subject_filter</cite>. It returns the email message object 
+of the latest matching email.</p>
+<dl>
+<dt>Args:</dt><dd><p>app_password (str): The app password used for logging into the email account.
+subject_filter (str): The subject filter used to search for specific emails.
+mail_server (str, optional): The IMAP email server address (default is 'imap.gmail.com').</p>
+</dd>
+<dt>Returns:</dt><dd><p>email.message.Message or None: The latest email message matching the filter, or None if no matching email is found or login fails.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">email</span> <span class="o">=</span> <span class="n">connect_and_fetch_latest_email</span><span class="p">(</span><span class="s2">&quot;amherst_college_password&quot;</span><span class="p">,</span> <span class="s2">&quot;Amherst College Daily Mammoth for Sunday, November 3, 2024&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">email</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">email</span><span class="p">[</span><span class="s2">&quot;From&quot;</span><span class="p">])</span>
+<span class="go">&#39;noreply@amherst.edu&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="access_amherst_algo.email_scraper.email_parser.extract_event_info_using_llama">
+<span class="sig-prename descclassname"><span class="pre">access_amherst_algo.email_scraper.email_parser.</span></span><span class="sig-name descname"><span class="pre">extract_event_info_using_llama</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email_content</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#access_amherst_algo.email_scraper.email_parser.extract_event_info_using_llama" title="Link to this definition">¶</a></dt>
+<dd><p>Extract event info from the email content using the LLaMA API.</p>
+<p>This function sends the provided email content to the LLaMA API for processing. 
+It sends the email content along with an instruction to extract event details.
+If the API response is valid, the function parses and returns the extracted 
+event information as a list of event JSON objects.</p>
+<dl>
+<dt>Args:</dt><dd><p>email_content (str): The raw content of the email to be processed by the LLaMA API.</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>list: A list of event data extracted from the email content in JSON format.</dt><dd><p>If extraction fails, an empty list is returned.</p>
+</dd>
+</dl>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">events</span> <span class="o">=</span> <span class="n">extract_event_info_using_llama</span><span class="p">(</span><span class="s2">&quot;We&#39;re hosting a Literature Speaker Event this Tuesday, November 5, 2024 in Keefe Campus Center!&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
+<span class="go">[{&quot;title&quot;: &quot;Literature Speaker Event&quot;, &quot;date&quot;: &quot;2024-11-05&quot;, &quot;location&quot;: &quot;Keefee Campus Center&quot;}]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="access_amherst_algo.email_scraper.email_parser.parse_email">
+<span class="sig-prename descclassname"><span class="pre">access_amherst_algo.email_scraper.email_parser.</span></span><span class="sig-name descname"><span class="pre">parse_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subject_filter</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#access_amherst_algo.email_scraper.email_parser.parse_email" title="Link to this definition">¶</a></dt>
+<dd><p>Parse the email and extract event data.</p>
+<p>This function connects to an email account, fetches the latest email based on the 
+provided subject filter, extracts event information from the email body using the 
+LLaMA API, and saves the extracted events to a JSON file. The file is saved with 
+a timestamped filename in the 'json_outputs' directory.</p>
+<dl>
+<dt>Args:</dt><dd><p>subject_filter (str): The subject filter to identify the relevant email to fetch.</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>None: This function does not return any value. It prints status messages </dt><dd><p>for each stage of the process (success or failure).</p>
+</dd>
+</dl>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">parse_email</span><span class="p">(</span><span class="s2">&quot;Amherst College Daily Mammoth for Sunday, November 3, 2024&quot;</span><span class="p">)</span>
+<span class="go">Email fetched successfully.</span>
+<span class="go">Events saved successfully to extracted_events_20231107_150000.json.</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="access_amherst_algo.email_scraper.email_parser.save_to_json_file">
+<span class="sig-prename descclassname"><span class="pre">access_amherst_algo.email_scraper.email_parser.</span></span><span class="sig-name descname"><span class="pre">save_to_json_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#access_amherst_algo.email_scraper.email_parser.save_to_json_file" title="Link to this definition">¶</a></dt>
+<dd><p>Save the extracted events to a JSON file.</p>
+<p>This function checks if the specified folder exists, creates it if it does not,
+and saves the provided event datato a JSON file with the specified filename.
+The data is saved with indentation for readability and structure.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>data (dict or list): The data to be saved in JSON format. Typically, this would </dt><dd><p>be a list or dictionary containing event data.</p>
+</dd>
+</dl>
+<p>filename (str): The name of the file where the data will be saved (e.g., 'extracted_events_20241103_124530.json').
+folder (str): The folder where the JSON file will be stored (e.g., 'json_outputs').</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>None: This function does not return any value. It prints a message upon success </dt><dd><p>or failure.</p>
+</dd>
+</dl>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">events</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Literature Speaker Event&quot;</span><span class="p">,</span> <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="s2">&quot;2024-11-05&quot;</span><span class="p">,</span> <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="s2">&quot;Keefee Campus Center&quot;</span><span class="p">}]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">save_to_json_file</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="s2">&quot;extracted_events_20241103_124530.json&quot;</span><span class="p">,</span> <span class="s2">&quot;json_outputs&quot;</span><span class="p">)</span>
+<span class="go">Data successfully saved to json_outputs/extracted_events_20241103_124530.json</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 
@@ -66,7 +195,14 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="event_model.html">Event Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rss_scraper.html">RSS Scraper</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Email Scraper</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Email Scraper</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#access_amherst_algo.email_scraper.email_parser.connect_and_fetch_latest_email"><code class="docutils literal notranslate"><span class="pre">connect_and_fetch_latest_email()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#access_amherst_algo.email_scraper.email_parser.extract_email_body"><code class="docutils literal notranslate"><span class="pre">extract_email_body()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#access_amherst_algo.email_scraper.email_parser.extract_event_info_using_llama"><code class="docutils literal notranslate"><span class="pre">extract_event_info_using_llama()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#access_amherst_algo.email_scraper.email_parser.parse_email"><code class="docutils literal notranslate"><span class="pre">parse_email()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#access_amherst_algo.email_scraper.email_parser.save_to_json_file"><code class="docutils literal notranslate"><span class="pre">save_to_json_file()</span></code></a></li>
+</ul>
+</li>
 </ul>
 
 <div class="relations">
