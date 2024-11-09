@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Weekly Calendar View</title>
     <style>
-        /* Calendar container styling */
         .calendar-container {
             display: grid;
             grid-template-columns: 80px repeat(7, 1fr);
@@ -14,8 +13,6 @@
             margin: 20px auto;
             border: 1px solid #ddd;
         }
-
-        /* Header row styling for days of the week */
         .day-header, .time-slot {
             background-color: #f3e5f5;
             padding: 10px;
@@ -23,26 +20,19 @@
             font-weight: bold;
             border-bottom: 1px solid #ddd;
         }
-
-        /* Time column styling */
         .time-column {
             display: flex;
             flex-direction: column;
         }
-
         .time-slot {
-            height: 60px;
+            height: 50px;
             border-right: 1px solid #ddd;
         }
-
-        /* Day column styling */
         .day-column {
             position: relative;
             background-color: white;
             border-right: 1px solid #ddd;
         }
-
-        /* Event block styling */
         .event-block {
             position: absolute;
             left: 5%;
@@ -55,48 +45,64 @@
             box-sizing: border-box;
             overflow: hidden;
         }
-
-        /* Styling for event titles and time */
-        .event-title {
-            font-weight: bold;
-            margin-bottom: 3px;
+        .event-title { font-weight: bold; margin-bottom: 3px; }
+        .event-time { font-size: 0.85em; }
+        .navigation-buttons {
+            text-align: center;
+            margin: 10px 0;
         }
-        .event-time {
-            font-size: 0.85em;
+        .nav-button {
+            background-color: #800080;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            margin: 5px;
+            transition: background-color 0.3s;
         }
+        .nav-button:hover { background-color: #660066; }
     </style>
 </head>
 <body>
 
     <h1>Weekly Calendar</h1>
+    
+    <div class="navigation-buttons">
+        <a href="?date={{ previous_week }}" class="nav-button">Previous Week</a>
+        <a href="?date={{ next_week }}" class="nav-button">Next Week</a>
+    </div>
+
     <div class="calendar-container">
-        <!-- Days of the Week Headers -->
-        <div class="time-column"></div> <!-- Empty cell for time column header -->
+        <div class="time-column"></div>
         {% for day in days_of_week %}
-            <div class="day-header">{{ day }}</div>
+            <div class="day-header">{{ day.strftime('%A %m/%d') }}</div>
         {% endfor %}
 
-        <!-- Time Column -->
         <div class="time-column">
             {% for time in times %}
                 <div class="time-slot">{{ time }}</div>
             {% endfor %}
         </div>
 
-        <!-- Event Slots for Each Day -->
         {% for day in days_of_week %}
             <div class="day-column">
                 {% for time in times %}
-                    {% if events_by_day[day][time] %}
-                        {% for event in events_by_day[day][time] %}
-                            <div class="event-block" style="top: calc(60px * {{ event.start_time.hour - 8 }}); height: calc(60px * ({{ event.end_time.hour - event.start_time.hour }}));">
-                                <div class="event-title">{{ event.title }}</div>
-                                <div class="event-time">{{ event.start_time|time:"g:i A" }} - {{ event.end_time|time:"g:i A" }}</div>
-                                <div>{{ event.location }}</div>
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                    <!-- Empty cell to maintain grid structure -->
+                    {% with events=events_by_day|get_item:day.strftime('%A')|default:''|get_item:time|default:'' %}
+                        {% if events %}
+                            {% for event in events %}
+                                <div class="event-block" 
+                                     style="top: calc(50px * {{ event.start_time.hour }}); 
+                                            height: calc(50px * ({{ event.end_time.hour - event.start_time.hour }}));">
+                                    <div class="event-title">{{ event.title }}</div>
+                                    <div class="event-time">{{ event.start_time|time:"g:i A" }} - {{ event.end_time|time:"g:i A" }}</div>
+                                    <div>{{ event.location }}</div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
                     <div class="time-slot"></div>
                 {% endfor %}
             </div>

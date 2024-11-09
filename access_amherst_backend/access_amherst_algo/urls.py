@@ -5,6 +5,7 @@ urlpatterns = [
     path("", views.home, name="home"),
     path("dashboard/", views.data_dashboard, name="dashboard"),
     path("map/", views.map_view, name="map"),
+    path("calendar/", views.calendar_view, name="calendar"),
     path("update_heatmap/", views.update_heatmap, name="update_heatmap"),
     path("run_db_saver/", views.run_db_saver, name="run_db_saver"),
     path(

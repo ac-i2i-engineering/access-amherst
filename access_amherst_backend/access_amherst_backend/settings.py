@@ -24,8 +24,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+#DJANGO_SECRET_KEY = django-insecure-g#^63*v$=mo#n=z##(nfa9v+m^c)u4^+92b3p3t#0xxpd-=j-7
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("django-insecure-g#^63*v$=mo#n=z##(nfa9v+m^c)u4^+92b3p3t#0xxpd-=j-7")
+SECRET_KEY = "django-insecure-g#^63*v$=mo#n=z##(nfa9v+m^c)u4^+92b3p3t#0xxpd-=j-7"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
