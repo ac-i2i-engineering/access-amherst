@@ -13,6 +13,7 @@ from .parse_database import (
 from .generate_map import create_map, add_event_markers, generate_heatmap
 from .models import Event
 
+from datetime import timedelta
 
 # View to run db_saver command
 def run_db_saver(request):
@@ -115,3 +116,29 @@ def update_heatmap(request):
 
         map_html = folium_map._repr_html_()  # Convert to HTML here
         return JsonResponse({"map_html": map_html})
+
+
+def calendar_view(request):
+    """Render calendar view with events in weekly format."""
+    # Define the time range and initialize days
+    times = [f"{hour}:00" for hour in range(8, 22)]  # 8 AM to 10 PM
+    days_of_week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+
+    # Organize events by day and hour
+    events_by_day = {day: {time: [] for time in times} for day in days_of_week}
+    events = Event.objects.all()
+
+    # Categorize events by day of the week and their start time hour
+    for event in events:
+        event_day = event.start_time.strftime('%A')  # Get day name (e.g., 'Monday')
+        event_time = event.start_time.strftime('%H:00')  # Get hour in "HH:00" format
+
+        if event_day in events_by_day and event_time in events_by_day[event_day]:
+            events_by_day[event_day][event_time].append(event)
+
+    context = {
+        'times': times,
+        'days_of_week': days_of_week,
+        'events_by_day': events_by_day,
+    }
+    return render(request, 'access_amherst_algo/calendar.html', context)
