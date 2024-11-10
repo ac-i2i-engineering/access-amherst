@@ -8,7 +8,7 @@ os.environ.setdefault(
 )
 
 # Initialize Celery
-app = Celery("access_amherst_backend", broker="redis://red-csoehtggph6c73bqfh3g:6379")
+app = Celery("access_amherst_backend", broker=os.getenv("REDIS_URL"))
 
 # Load settings from Django settings.py
 app.config_from_object("django.conf:settings", namespace="CELERY")
