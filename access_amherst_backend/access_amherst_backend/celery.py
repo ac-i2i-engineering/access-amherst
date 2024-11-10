@@ -45,7 +45,7 @@ def setup_periodic_tasks(sender, **kwargs):
 
     # 6-hour interval task
     interval_schedule, _ = IntervalSchedule.objects.get_or_create(
-        every=30, period=IntervalSchedule.minute
+        every=10, period=IntervalSchedule.minute
     )
     PeriodicTask.objects.create(
         interval=interval_schedule,
