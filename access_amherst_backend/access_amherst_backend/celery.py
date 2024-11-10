@@ -55,7 +55,7 @@ def setup_periodic_tasks(sender, **kwargs):
 
     # Daily Mammoth task at 8:30 AM EST
     crontab_schedule_daily_mammoth, _ = CrontabSchedule.objects.get_or_create(
-        minute="10",
+        minute="30",
         hour="16",
         day_of_week="*",
         day_of_month="*",
