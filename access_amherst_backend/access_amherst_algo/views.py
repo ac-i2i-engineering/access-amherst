@@ -13,8 +13,11 @@ from .parse_database import (
 from .generate_map import create_map, add_event_markers, generate_heatmap
 from .models import Event
 
-from datetime import timedelta
+from datetime import datetime, timedelta
 from django.utils import timezone
+
+import logging
+
 
 # View to run db_saver command
 def run_db_saver(request):
@@ -119,44 +122,35 @@ def update_heatmap(request):
         return JsonResponse({"map_html": map_html})
 
 
+# Configure logging
+import logging
+
+logger = logging.getLogger(__name__)
+
 def calendar_view(request):
-    """Render calendar view with events in a weekly format."""
+    times = [f"{hour}:00" for hour in range(8, 22)]  # 8 AM to 10 PM
+    days_of_week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
-    # Determine the start of the week (Sunday) based on a selected date or today's date
-    today = datetime.now()
-    selected_date = request.GET.get('date')
-    if selected_date:
-        start_of_week = datetime.strptime(selected_date, "%Y-%m-%d")
-    else:
-        # Default to the current week
-        start_of_week = today - timedelta(days=today.weekday() + 1)
+    events_by_day = {day: {time: [] for time in times} for day in days_of_week}
+    events = Event.objects.all()
 
-    # Calculate each day in the week from Sunday to Saturday
-    days_of_week = [(start_of_week + timedelta(days=i)) for i in range(7)]
-    times = [f"{hour:02d}:00" for hour in range(24)]  # 24-hour format
-
-    # Query events for the specified week
-    end_of_week = start_of_week + timedelta(days=7)
-    events = Event.objects.filter(start_time__gte=start_of_week, end_time__lt=end_of_week)
-
-    # Organize events by day and hour for display
-    events_by_day = {day.strftime('%A'): {time: [] for time in times} for day in days_of_week}
     for event in events:
-        event_day = event.start_time.strftime('%A')
-        event_time = event.start_time.strftime('%H:00')
-        if event_day in events_by_day and event_time in events_by_day[event_day]:
-            events_by_day[event_day][event_time].append(event)
-
-    # Add context with date navigation
-    previous_week = (start_of_week - timedelta(days=7)).strftime('%Y-%m-%d')
-    next_week = (start_of_week + timedelta(days=7)).strftime('%Y-%m-%d')
+        if event.start_time:
+            event_day = event.start_time.strftime('%A')
+            event_time = event.start_time.strftime('%H:00')
+            if event_day in events_by_day and event_time in events_by_day[event_day]:
+                events_by_day[event_day][event_time].append({
+                    'title': event.title,
+                    'start_time': event.start_time,
+                    'end_time': event.end_time or event.start_time + timedelta(hours=1),
+                    'location': event.location,
+                })
+        else:
+            logger.warning(f"Event {event} has no start time.")
 
     context = {
         'times': times,
         'days_of_week': days_of_week,
         'events_by_day': events_by_day,
-        'selected_date': start_of_week.strftime('%Y-%m-%d'),
-        'previous_week': previous_week,
-        'next_week': next_week,
     }
     return render(request, 'access_amherst_algo/calendar.html', context)
