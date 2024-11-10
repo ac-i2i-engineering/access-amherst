@@ -45,7 +45,7 @@ def setup_periodic_tasks(sender, **kwargs):
 
     # 6-hour interval task
     interval_schedule, _ = IntervalSchedule.objects.get_or_create(
-        every=6, period=IntervalSchedule.HOURS
+        every=1, period=IntervalSchedule.HOURS
     )
     PeriodicTask.objects.create(
         interval=interval_schedule,
@@ -55,8 +55,8 @@ def setup_periodic_tasks(sender, **kwargs):
 
     # Daily Mammoth task at 8:30 AM EST
     crontab_schedule_daily_mammoth, _ = CrontabSchedule.objects.get_or_create(
-        minute="30",
-        hour="13",
+        minute="10",
+        hour="16",
         day_of_week="*",
         day_of_month="*",
         month_of_year="*",
