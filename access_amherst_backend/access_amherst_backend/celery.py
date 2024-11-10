@@ -10,6 +10,13 @@ os.environ.setdefault(
 # Initialize Celery
 app = Celery("access_amherst_backend", broker=os.getenv("REDIS_URL"))
 
+# Update configuration
+app.conf.update(
+    result_backend=os.getenv("REDIS_URL"),
+    timezone="America/New_York",
+    broker_transport_options={"visibility_timeout": 21600}
+)
+
 # Load settings from Django settings.py
 app.config_from_object("django.conf:settings", namespace="CELERY")
 
