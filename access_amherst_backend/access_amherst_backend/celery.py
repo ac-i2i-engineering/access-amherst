@@ -8,7 +8,7 @@ os.environ.setdefault(
 )
 
 # Initialize Celery
-app = Celery("access_amherst_backend")
+app = Celery("access_amherst_backend", broker="redis://red-csoehtggph6c73bqfh3g:6379")
 
 # Load settings from Django settings.py
 app.config_from_object("django.conf:settings", namespace="CELERY")
@@ -45,7 +45,7 @@ def setup_periodic_tasks(sender, **kwargs):
 
     # 6-hour interval task
     interval_schedule, _ = IntervalSchedule.objects.get_or_create(
-        every=10, period=IntervalSchedule.minute
+        every=5, period=IntervalSchedule.MINUTES
     )
     PeriodicTask.objects.create(
         interval=interval_schedule,
