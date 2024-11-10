@@ -3,3 +3,4 @@ Django
 django-celery-beat
 sphinx
 beautifulsoup4
+dj-database-url
