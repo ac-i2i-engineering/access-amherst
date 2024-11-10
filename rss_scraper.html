@@ -56,6 +56,115 @@ on the current date and time, and the file is stored in the <cite>rss_files</cit
 </section>
 </dd></dl>
 
+<dl class="py function" id="module-access_amherst_algo.rss_scraper.parse_rss">
+<dt class="sig sig-object py" id="access_amherst_algo.rss_scraper.parse_rss.create_events_list">
+<span class="sig-prename descclassname"><span class="pre">access_amherst_algo.rss_scraper.parse_rss.</span></span><span class="sig-name descname"><span class="pre">create_events_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#access_amherst_algo.rss_scraper.parse_rss.create_events_list" title="Link to this definition">¶</a></dt>
+<dd><p>Create a list of event details from an RSS XML file.</p>
+<p>This function loads an RSS XML file with a timestamped filename format,
+parses its content, and extracts event details from each <cite>&lt;item&gt;</cite> element.
+The event details are returned as a list of dictionaries, with each dictionary
+containing relevant information for a single event.</p>
+<dl>
+<dt>Returns:</dt><dd><p>list of dict: A list where each dictionary represents an event and contains
+extracted details retrieved by <cite>extract_event_details</cite>.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">events</span> <span class="o">=</span> <span class="n">create_events_list</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">events</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;title&quot;</span><span class="p">])</span>
+<span class="go">&#39;Literature Speaker Event&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="access_amherst_algo.rss_scraper.parse_rss.save_event_to_db">
+<span class="sig-prename descclassname"><span class="pre">access_amherst_algo.rss_scraper.parse_rss.</span></span><span class="sig-name descname"><span class="pre">save_event_to_db</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#access_amherst_algo.rss_scraper.parse_rss.save_event_to_db" title="Link to this definition">¶</a></dt>
+<dd><p>Save event data to the Django model.</p>
+<p>This function processes event data for database storage by parsing publication,
+start, and end dates into timezone-aware datetime objects, extracting and
+adjusting location data, and generating a unique event ID. Finally, the function
+updates or creates an entry in the database's <cite>Event</cite> table.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>event_data (dict): A dictionary containing event details, expected to include:</dt><dd><ul class="simple">
+<li><p><cite>title</cite> (str): Title of the event.</p></li>
+<li><p><cite>author</cite> (str or None): The event author if available.</p></li>
+<li><p><cite>pub_date</cite> (str): The publication date in RFC 2822 format.</p></li>
+<li><p><cite>host</cite> (list of str): Hosts associated with the event.</p></li>
+<li><p><cite>link</cite> (str): Unique URL link to the event.</p></li>
+<li><p><cite>picture_link</cite> (str or None): URL to the event’s image, if available.</p></li>
+<li><p><cite>event_description</cite> (str): Description or details about the event.</p></li>
+<li><p><cite>starttime</cite> (str): Event start time in either ISO or RFC 2822 format.</p></li>
+<li><p><cite>endtime</cite> (str): Event end time in either ISO or RFC 2822 format.</p></li>
+<li><p><cite>location</cite> (str): Raw location string of the event.</p></li>
+<li><p><cite>categories</cite> (list of str): Categories or tags associated with the event.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>None</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">event_data</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Literature Speaker Event&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="s2">&quot;https://thehub.amherst.edu/event/10000000&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;event_description&quot;</span><span class="p">:</span> <span class="s2">&quot;Join us to hear our speaker&#39;s talk on American Literature! Food from a local restaurant will be provided.&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;categories&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Lecture&quot;</span><span class="p">,</span> <span class="s2">&quot;Workshop&quot;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="s2">&quot;pub_date&quot;</span><span class="p">:</span> <span class="s2">&quot;Sun, 03 Nov 2024 05:30:25 GMT&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;starttime&quot;</span><span class="p">:</span> <span class="s2">&quot;Tue, 05 Nov 2024 18:00:00 GMT&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;endtime&quot;</span><span class="p">:</span> <span class="s2">&quot;Tue, 05 Nov 2024 19:00:00 GMT&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="s2">&quot;Friedmann Room&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;literature@amherst.edu&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;host&quot;</span><span class="p">:</span> <span class="s2">&quot;Literature Club&quot;</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">save_event_to_db</span><span class="p">(</span><span class="n">event_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="access_amherst_algo.rss_scraper.parse_rss.save_json">
+<span class="sig-prename descclassname"><span class="pre">access_amherst_algo.rss_scraper.parse_rss.</span></span><span class="sig-name descname"><span class="pre">save_json</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#access_amherst_algo.rss_scraper.parse_rss.save_json" title="Link to this definition">¶</a></dt>
+<dd><p>Save the list of extracted events to a JSON file.</p>
+<p>This function generates a timestamped JSON file containing event details.
+It first creates a list of events by calling <cite>create_events_list()</cite>, and
+then writes this list to a JSON file with a filename format based on the
+current date and time.</p>
+<p>The resulting JSON file is saved in the <cite>json_outputs</cite> directory under the
+<cite>rss_scraper</cite> folder. If the directory doesn't exist, it is created.</p>
+<dl>
+<dt>Returns:</dt><dd><p>None</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">save_json</span><span class="p">()</span>
+<span class="go"># This will create a JSON file with the event details in the specified directory.</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="access_amherst_algo.rss_scraper.parse_rss.save_to_db">
+<span class="sig-prename descclassname"><span class="pre">access_amherst_algo.rss_scraper.parse_rss.</span></span><span class="sig-name descname"><span class="pre">save_to_db</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#access_amherst_algo.rss_scraper.parse_rss.save_to_db" title="Link to this definition">¶</a></dt>
+<dd><p>Clean and save event data to the database.</p>
+<p>This function first retrieves a cleaned list of events by calling the
+<cite>clean_hub_data()</cite> function. It then iterates through each event in the
+list and saves the event data to the database using the <cite>save_event_to_db()</cite>
+function.</p>
+<p>This process ensures that only cleaned event data is stored in the database.</p>
+<dl>
+<dt>Returns:</dt><dd><p>None</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">save_to_db</span><span class="p">()</span>
+<span class="go"># This will save the cleaned event data to the database.</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 
@@ -89,6 +198,10 @@ on the current date and time, and the file is stored in the <cite>rss_files</cit
 <li class="toctree-l1"><a class="reference internal" href="event_model.html">Event Model</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">RSS Scraper</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#access_amherst_algo.rss_scraper.fetch_rss.fetch_rss"><code class="docutils literal notranslate"><span class="pre">fetch_rss()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#access_amherst_algo.rss_scraper.parse_rss.create_events_list"><code class="docutils literal notranslate"><span class="pre">create_events_list()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#access_amherst_algo.rss_scraper.parse_rss.save_event_to_db"><code class="docutils literal notranslate"><span class="pre">save_event_to_db()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#access_amherst_algo.rss_scraper.parse_rss.save_json"><code class="docutils literal notranslate"><span class="pre">save_json()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#access_amherst_algo.rss_scraper.parse_rss.save_to_db"><code class="docutils literal notranslate"><span class="pre">save_to_db()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="email_scraper.html">Email Scraper</a></li>
