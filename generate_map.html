@@ -102,8 +102,114 @@
                 <div class="row">
                     <div class="col-12 col-lg-9 order-last order-lg-first rst-content">
                         <main role="main" id="main">
-    <section id="map-generation">
-<h1>Map Generation<a class="headerlink" href="#map-generation" title="Link to this heading">¶</a></h1>
+    <section id="module-access_amherst_algo.generate_map">
+<span id="map-generation"></span><h1>Map Generation<a class="headerlink" href="#module-access_amherst_algo.generate_map" title="Link to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="access_amherst_algo.generate_map.add_event_markers">
+<span class="sig-prename descclassname"><span class="pre">access_amherst_algo.generate_map.</span></span><span class="sig-name descname"><span class="pre">add_event_markers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folium_map</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#access_amherst_algo.generate_map.add_event_markers" title="Link to this definition">¶</a></dt>
+<dd><p>Add event markers to a Folium map with popups and Google Calendar links.</p>
+<p>This function takes a Folium map and a list of event data to add interactive markers
+representing each event. Each marker includes a popup displaying event details
+(title, location, start and end times) and a link to add the event to Google Calendar.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>folium_map</strong> (<em>folium.Map</em>) -- The Folium map object where the event markers will be added.</p></li>
+<li><p><strong>events</strong> (<em>list</em><em> of </em><a class="reference internal" href="event_model.html#access_amherst_algo.models.Event" title="access_amherst_algo.models.Event"><em>Event</em></a>) -- A list of Event objects containing event details such as title, start and end times,
+location, description, and map coordinates (latitude and longitude).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Folium map object with added markers for each event.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>folium.Map</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">map_object</span> <span class="o">=</span> <span class="n">create_map</span><span class="p">((</span><span class="mf">42.37284302722828</span><span class="p">,</span> <span class="o">-</span><span class="mf">72.51584816807264</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">events</span> <span class="o">=</span> <span class="p">[</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">Event</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Literature Speaker Event&quot;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">start_time</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">end_time</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">location</span><span class="o">=</span><span class="s2">&quot;Keefe Campus Center&quot;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">map_location</span><span class="o">=</span><span class="s2">&quot;Amherst, MA&quot;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">latitude</span><span class="o">=</span><span class="mf">42.37149564586236</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">longitude</span><span class="o">=-</span><span class="mf">72.51478632450079</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">event_description</span><span class="o">=</span><span class="s2">&quot;A talk on modern literature.&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">add_event_markers</span><span class="p">(</span><span class="n">map_object</span><span class="p">,</span> <span class="n">events</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="access_amherst_algo.generate_map.create_map">
+<span class="sig-prename descclassname"><span class="pre">access_amherst_algo.generate_map.</span></span><span class="sig-name descname"><span class="pre">create_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">center_coords</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zoom_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">17</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#access_amherst_algo.generate_map.create_map" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize a Folium map centered around the specified coordinates.</p>
+<p>This function creates and returns a Folium map centered on the provided
+latitude and longitude coordinates. The zoom level can be adjusted, with
+a default zoom level of 17 for close-up views.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>center_coords</strong> (<em>tuple</em><em> of </em><em>float</em>) -- A tuple specifying the latitude and longitude (in that order) for the
+center of the map.</p></li>
+<li><p><strong>zoom_start</strong> (<em>int</em><em>, </em><em>default 17</em>) -- The initial zoom level of the map, where higher values provide a
+closer view.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Folium map object centered on the specified coordinates and set to
+the defined zoom level.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>folium.Map</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">map_object</span> <span class="o">=</span> <span class="n">create_map</span><span class="p">((</span><span class="mf">42.37284302722828</span><span class="p">,</span> <span class="o">-</span><span class="mf">72.51584816807264</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="access_amherst_algo.generate_map.generate_heatmap">
+<span class="sig-prename descclassname"><span class="pre">access_amherst_algo.generate_map.</span></span><span class="sig-name descname"><span class="pre">generate_heatmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_hour</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_hour</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#access_amherst_algo.generate_map.generate_heatmap" title="Link to this definition">¶</a></dt>
+<dd><p>Generate a heatmap map object based on filtered events within a specified time range.</p>
+<p>This function filters events based on the provided time range (specified by <cite>min_hour</cite>
+and <cite>max_hour</cite>, if provided) and generates a heatmap of event locations using their
+geographical coordinates (latitude and longitude). The heatmap is then added to a
+Folium map, which is returned for further use.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>events</strong> (<em>QuerySet</em>) -- A QuerySet of Event objects, each containing attributes like latitude, longitude,
+and start time.</p></li>
+<li><p><strong>timezone</strong> (<em>pytz.timezone</em>) -- The timezone used for filtering events based on their start times.</p></li>
+<li><p><strong>min_hour</strong> (<em>int</em><em>, </em><em>optional</em>) -- The minimum hour (0-23) of the day to filter events by start time. Default is None.</p></li>
+<li><p><strong>max_hour</strong> (<em>int</em><em>, </em><em>optional</em>) -- The maximum hour (0-23) of the day to filter events by start time. Default is None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Folium map object with a heatmap layer representing event locations within
+the specified time range.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>folium.Map</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">events</span> <span class="o">=</span> <span class="n">Event</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>  <span class="c1"># Example QuerySet of events</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timezone</span> <span class="o">=</span> <span class="n">pytz</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="s1">&#39;America/New_York&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">folium_map</span> <span class="o">=</span> <span class="n">generate_heatmap</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">timezone</span><span class="p">,</span> <span class="n">min_hour</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">max_hour</span><span class="o">=</span><span class="mi">17</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">folium_map</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;events_heatmap.html&quot;</span><span class="p">)</span>  <span class="c1"># Saves the map with heatmap to an HTML file</span>
+</pre></div>
+</div>
+</dd></dl>
+
 </section>
 
 </main>
@@ -113,6 +219,21 @@
     </a>
 </nav>
                     </div>
+                    
+                    <nav class="col-12 col-lg-3 pb-4">
+                        <div class="sticky-top toc page-toc" aria-labelledby="page-toc-heading">
+                            <p class="font-weight-bold" id="page-toc-heading">Page contents</p>
+                            <ul>
+<li><a class="reference internal" href="#">Map Generation</a><ul>
+<li><a class="reference internal" href="#access_amherst_algo.generate_map.add_event_markers"><code class="docutils literal notranslate"><span class="pre">add_event_markers()</span></code></a></li>
+<li><a class="reference internal" href="#access_amherst_algo.generate_map.create_map"><code class="docutils literal notranslate"><span class="pre">create_map()</span></code></a></li>
+<li><a class="reference internal" href="#access_amherst_algo.generate_map.generate_heatmap"><code class="docutils literal notranslate"><span class="pre">generate_heatmap()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+                        </div>
+                    </nav>
                     
                 </div>
             </div>
