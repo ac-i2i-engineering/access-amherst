@@ -6,7 +6,7 @@
 Welcome to Access Amherst's Documentation!
 ==========================================
 
-Access Amherst is a web app to connect Amherst College students in a more convenient, intimate, and diverse way!
+Access Amherst is a web application created to connect Amherst College students through organized, accessible, and diverse event updates on campus. The platform provides real-time information on campus events, allowing students to plan their schedules effectively.
 
 This project is made possible through i2i (Ideas 2 Innovation) initiative, a student-led venture accelerator, at Amherst College.
 
@@ -52,6 +52,8 @@ Contents
    event_model
    rss_scraper
    email_scraper
+   parse_database
+   generate_map   
 
 Additional Resources
 ====================

@@ -1,1 +1,31 @@
-/* This file intentionally left blank. */
+/* Adjusts overflow for long function names */
+.property, .sig-prename, .sig-name, .sig-paren, .sig-param {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 18px;
+}
+
+.property {
+    margin-right: 4px;
+}
+
+.sig-prename, .sig-name, .descclassname, .descname {
+    color: rgb(145, 37, 131),
+}
+
+dl {
+    margin: 20px 0px 20px 0px,
+}
+
+dd {
+    margin-left: 24px;
+}
+
+h2 {
+    font-size: 16px;
+    background-color: rgb(243, 244, 245);
+}
