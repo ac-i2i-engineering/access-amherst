@@ -128,10 +128,6 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Time zone settings (should match Celery's timezone)
-TIME_ZONE = "America/New_York"
-USE_TZ = True
-
 # Static files
 STATIC_URL = "/static/"  # URL for serving static files
 STATIC_ROOT = os.path.join(
