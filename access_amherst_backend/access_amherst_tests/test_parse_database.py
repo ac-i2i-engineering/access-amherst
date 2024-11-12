@@ -10,7 +10,6 @@ from access_amherst_algo.parse_database import (
 import pytz
 
 @pytest.fixture
-@pytest.mark.skip(reason="Migrating to Postgres will be tested in Render CI/CD")
 def create_events():
     """Fixture to create sample events for testing."""
     now = timezone.now()
@@ -41,7 +40,6 @@ def create_events():
 
 
 @pytest.mark.django_db
-@pytest.mark.skip(reason="Migrating to Postgres will be tested in Render CI/CD")
 def test_filter_events(create_events):
     """Test filtering events by title, location, and date range."""
     # Test filtering by title
@@ -62,7 +60,6 @@ def test_filter_events(create_events):
     assert events.count() == 2  # Assuming both events fall within the range
 
 @pytest.mark.django_db
-@pytest.mark.skip(reason="Migrating to Postgres will be tested in Render CI/CD")
 def test_get_unique_locations(create_events):
     """Test retrieving unique map locations."""
     unique_locations = get_unique_locations()
@@ -71,7 +68,6 @@ def test_get_unique_locations(create_events):
     assert "Map Location 2" in unique_locations
 
 @pytest.mark.django_db
-@pytest.mark.skip(reason="Migrating to Postgres will be tested in Render CI/CD")
 def test_get_events_by_hour(create_events):
     """Test grouping events by hour."""
     timezone_est = pytz.timezone("America/New_York")
@@ -82,7 +78,6 @@ def test_get_events_by_hour(create_events):
         assert "event_count" in event
 
 @pytest.mark.django_db
-@pytest.mark.skip(reason="Migrating to Postgres will be tested in Render CI/CD")
 def test_get_category_data(create_events):
     """Test parsing category data and grouping by hour."""
     timezone_est = pytz.timezone("America/New_York")

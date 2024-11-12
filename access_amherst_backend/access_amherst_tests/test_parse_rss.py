@@ -18,7 +18,6 @@ from datetime import datetime
 import os
 
 @pytest.fixture
-@pytest.mark.skip(reason="Migrating to Postgres will be tested in Render CI/CD")
 def xml_item_queer_talk():
     # Sample XML data for tests
     xml_data_queer_talk = """
@@ -51,7 +50,6 @@ def xml_item_queer_talk():
 
 
 @pytest.fixture
-@pytest.mark.skip(reason="Migrating to Postgres will be tested in Render CI/CD")
 def xml_item_cricket_club():
     xml_data = """
     <item>
@@ -72,7 +70,6 @@ def xml_item_cricket_club():
     """
     return ET.fromstring(xml_data)
 
-@pytest.mark.skip(reason="Migrating to Postgres will be tested in Render CI/CD")
 def test_extract_event_details_cricket_club(xml_item_cricket_club):
     result = extract_event_details(xml_item_cricket_club)
     assert result["title"] == "Amherst Cricket Club Practices"
@@ -94,7 +91,6 @@ def test_extract_event_details_cricket_club(xml_item_cricket_club):
     assert result["author_email"] == "dmavani25@amherst.edu"
     assert result["map_location"] == "Alumni Gymnasium"
 
-@pytest.mark.skip(reason="Migrating to Postgres will be tested in Render CI/CD")
 def test_extract_event_details_cricket_club(xml_item_cricket_club):
     result = extract_event_details(xml_item_cricket_club)
     assert result["title"] == "Amherst Cricket Club Practices"
@@ -121,7 +117,6 @@ def test_extract_event_details_cricket_club(xml_item_cricket_club):
 
 
 @pytest.fixture
-@pytest.mark.skip(reason="Migrating to Postgres will be tested in Render CI/CD")
 def mock_rss_file():
     # Mock rss data
     rss_data = """<?xml version="1.0" encoding="utf-8"?>
@@ -157,7 +152,6 @@ def mock_rss_file():
 
 
 @patch("access_amherst_algo.rss_scraper.parse_rss.extract_event_details")
-@pytest.mark.skip(reason="Migrating to Postgres will be tested in Render CI/CD")
 def test_create_event_list(mock_extract_event_details, mock_rss_file):
     # Mock extract_event_details to return specific data for each event
     mock_extract_event_details.side_effect = [
@@ -189,7 +183,6 @@ def test_create_event_list(mock_extract_event_details, mock_rss_file):
 
 
 @pytest.fixture
-@pytest.mark.skip(reason="Migrating to Postgres will be tested in Render CI/CD")
 def event_list():
     # Mock output of create_event_list
     event_list = [
@@ -228,7 +221,6 @@ def event_list():
     "access_amherst_algo.rss_scraper.parse_rss.open", new_callable=mock_open
 )
 @patch("access_amherst_algo.rss_scraper.parse_rss.json.dump")
-@pytest.mark.skip(reason="Migrating to Postgres will be tested in Render CI/CD")
 def test_save_json(
     mock_json_dump, mock_open, mock_create_events_list, event_list
 ):
@@ -254,7 +246,6 @@ def test_save_json(
 
 
 @pytest.fixture
-@pytest.mark.skip(reason="Migrating to Postgres will be tested in Render CI/CD")
 def sample_pre_cleaned_data():
     return [
         {
@@ -274,7 +265,6 @@ def sample_pre_cleaned_data():
 
 
 @pytest.fixture
-@pytest.mark.skip(reason="Migrating to Postgres will be tested in Render CI/CD")
 def sample_cleaned_data():
     # Sample data fixture to be used across multiple tests
     return [
@@ -299,7 +289,6 @@ def sample_cleaned_data():
 @pytest.mark.django_db
 @patch("access_amherst_algo.rss_scraper.parse_rss.save_event_to_db")
 @patch("access_amherst_algo.rss_scraper.clean_hub_data.clean_hub_data")
-@pytest.mark.skip(reason="Migrating to Postgres will be tested in Render CI/CD")
 def test_save_to_db(mock_clean_hub_data, mock_save_event, sample_cleaned_data):
     # Mock clean_hub_data to return sample data
     mock_clean_hub_data.return_value = sample_cleaned_data
@@ -313,7 +302,6 @@ def test_save_to_db(mock_clean_hub_data, mock_save_event, sample_cleaned_data):
 
 # Database test with actual data saving
 @pytest.mark.django_db
-@pytest.mark.skip(reason="Migrating to Postgres will be tested in Render CI/CD")
 def test_save_event_creates_new_event(sample_cleaned_data):
     # Modify sample_cleaned_data to match the separated author fields
     sample_cleaned_data[0]["author_name"] = "Amherst College Cricket Club"
@@ -334,7 +322,6 @@ def test_save_event_creates_new_event(sample_cleaned_data):
 
 
 @pytest.mark.django_db
-@pytest.mark.skip(reason="Migrating to Postgres will be tested in Render CI/CD")
 def test_save_event_updates_existing_event(sample_cleaned_data):
     sample_cleaned_data[0]["author_name"] = "Amherst College Cricket Club"
     sample_cleaned_data[0]["author_email"] = "dmavani25@amherst.edu"
@@ -357,7 +344,6 @@ def test_save_event_updates_existing_event(sample_cleaned_data):
 
 
 # Test for categorize_location function, covering more keywords and "Other" case
-@pytest.mark.skip(reason="Migrating to Postgres will be tested in Render CI/CD")
 def test_categorize_location():
     assert categorize_location("Keefe Campus Center") == "Keefe Campus Center"
     assert categorize_location("Ford Hall") == "Ford Hall"
@@ -365,7 +351,6 @@ def test_categorize_location():
 
 
 # Test get_lat_lng function for known and unknown locations
-@pytest.mark.skip(reason="Migrating to Postgres will be tested in Render CI/CD")
 def test_get_lat_lng():
     lat, lng = get_lat_lng("Science Center")
     assert lat == 42.37105378715133
@@ -377,7 +362,6 @@ def test_get_lat_lng():
 
 
 # Test add_random_offset function with known lat/lng to verify range of offset
-@pytest.mark.skip(reason="Migrating to Postgres will be tested in Render CI/CD")
 def test_add_random_offset():
     lat, lng = 42.372092, -72.514224
     new_lat, new_lng = add_random_offset(lat, lng)
@@ -388,7 +372,6 @@ def test_add_random_offset():
 
 
 # Test is_similar_event for exact match and close title match
-@pytest.mark.skip(reason="Migrating to Postgres will be tested in Render CI/CD")
 @pytest.mark.django_db
 def test_is_similar_event(sample_cleaned_data):
     # Add author_name and author_email to sample_cleaned_data if missing
@@ -419,7 +402,6 @@ def test_is_similar_event(sample_cleaned_data):
 # Test create_events_list for correct extraction and parsing
 @patch("access_amherst_algo.rss_scraper.parse_rss.extract_event_details")
 @patch("xml.etree.ElementTree.parse")
-@pytest.mark.skip(reason="Migrating to Postgres will be tested in Render CI/CD")
 def test_create_events_list(
     mock_parse, mock_extract_event_details, xml_item_queer_talk
 ):
@@ -443,7 +425,6 @@ def test_create_events_list(
 # Test save_json for correct file creation and JSON output
 @patch("builtins.open", new_callable=mock_open)
 @patch("json.dump")
-@pytest.mark.skip(reason="Migrating to Postgres will be tested in Render CI/CD")
 def test_save_json_creates_file(mock_json_dump, mock_open):
     events_list = [
         {"title": "Event A", "starttime": "2024-10-18T20:00:00"},
