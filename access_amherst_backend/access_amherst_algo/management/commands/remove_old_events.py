@@ -7,7 +7,7 @@ class Command(BaseCommand):
     help = "Deletes events that have a start_time older than 24 hours"
 
     def handle(self, *args, **kwargs):
-        threshold_time = timezone.now() - timezone.timedelta(days=1)
+        threshold_time = timezone.now() - timezone.timedelta(hours=2)
         deleted_count, _ = Event.objects.filter(
             start_time__lt=threshold_time
         ).delete()
