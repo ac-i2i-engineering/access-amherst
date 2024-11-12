@@ -5,10 +5,12 @@ on:
     branches:
       - master
       - main
+      - releases/**
   pull_request:
     branches:
       - master
       - main
+      - releases/**
       - '*/*'
       - '*'
 
