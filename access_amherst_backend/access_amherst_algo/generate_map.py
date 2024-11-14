@@ -1,4 +1,3 @@
-# generate_map.py
 import folium
 from folium.plugins import HeatMap
 from django.db.models.functions import ExtractHour
@@ -12,25 +11,6 @@ def create_map(center_coords, zoom_start=17):
     This function creates and returns a Folium map centered on the provided 
     latitude and longitude coordinates. The zoom level can be adjusted, with 
     a default zoom level of 17 for close-up views.
-
-    Parameters
-    ----------
-    center_coords : tuple of float
-        A tuple specifying the latitude and longitude (in that order) for the 
-        center of the map.
-    zoom_start : int, default 17
-        The initial zoom level of the map, where higher values provide a 
-        closer view.
-
-    Returns
-    -------
-    folium.Map
-        A Folium map object centered on the specified coordinates and set to 
-        the defined zoom level.
-
-    Examples
-    --------
-    >>> map_object = create_map((42.37284302722828, -72.51584816807264))
     """
     return folium.Map(location=center_coords, zoom_start=zoom_start)
 
@@ -42,40 +22,11 @@ def add_event_markers(folium_map, events):
     This function takes a Folium map and a list of event data to add interactive markers 
     representing each event. Each marker includes a popup displaying event details 
     (title, location, start and end times) and a link to add the event to Google Calendar.
-
-    Parameters
-    ----------
-    folium_map : folium.Map
-        The Folium map object where the event markers will be added.
-    events : list of Event
-        A list of Event objects containing event details such as title, start and end times, 
-        location, description, and map coordinates (latitude and longitude).
-
-    Returns
-    -------
-    folium.Map
-        The Folium map object with added markers for each event.
-
-    Examples
-    --------
-    >>> map_object = create_map((42.37284302722828, -72.51584816807264))
-    >>> events = [
-    >>>     Event(
-    >>>         title="Literature Speaker Event",
-    >>>         start_time=datetime(2024, 11, 5, 18, 0),
-    >>>         end_time=datetime(2024, 11, 5, 19, 0),
-    >>>         location="Keefe Campus Center",
-    >>>         map_location="Amherst, MA",
-    >>>         latitude=42.37149564586236,
-    >>>         longitude=-72.51478632450079,
-    >>>         event_description="A talk on modern literature."
-    >>>     )
-    >>> ]
-    >>> add_event_markers(map_object, events)
     """
     for event in events:
-        start_time = event.start_time.strftime("%Y-%m-%d %H:%M")
-        end_time = event.end_time.strftime("%Y-%m-%d %H:%M")
+        # Ensure start_time and end_time are naive datetimes
+        start_time = event.start_time.replace(tzinfo=None).strftime("%Y-%m-%d %H:%M")
+        end_time = event.end_time.replace(tzinfo=None).strftime("%Y-%m-%d %H:%M")
 
         google_calendar_link = (
             "https://www.google.com/calendar/render?action=TEMPLATE"
@@ -102,7 +53,7 @@ def add_event_markers(folium_map, events):
     return folium_map
 
 
-def generate_heatmap(events, timezone, min_hour=None, max_hour=None):
+def generate_heatmap(events, min_hour=None, max_hour=None):
     """
     Generate a heatmap map object based on filtered events within a specified time range.
 
@@ -110,31 +61,6 @@ def generate_heatmap(events, timezone, min_hour=None, max_hour=None):
     and `max_hour`, if provided) and generates a heatmap of event locations using their 
     geographical coordinates (latitude and longitude). The heatmap is then added to a 
     Folium map, which is returned for further use.
-
-    Parameters
-    ----------
-    events : QuerySet
-        A QuerySet of Event objects, each containing attributes like latitude, longitude, 
-        and start time.
-    timezone : pytz.timezone
-        The timezone used for filtering events based on their start times.
-    min_hour : int, optional
-        The minimum hour (0-23) of the day to filter events by start time. Default is None.
-    max_hour : int, optional
-        The maximum hour (0-23) of the day to filter events by start time. Default is None.
-
-    Returns
-    -------
-    folium.Map
-        The Folium map object with a heatmap layer representing event locations within 
-        the specified time range.
-
-    Examples
-    --------
-    >>> events = Event.objects.all()  # Example QuerySet of events
-    >>> timezone = pytz.timezone('America/New_York')
-    >>> folium_map = generate_heatmap(events, timezone, min_hour=9, max_hour=17)
-    >>> folium_map.save("events_heatmap.html")  # Saves the map with heatmap to an HTML file
     """
     if min_hour is not None and max_hour is not None:
         events = events.annotate(event_hour=ExtractHour("start_time")).filter(
