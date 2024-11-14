@@ -86,8 +86,7 @@ def test_filter_events(create_events):
     assert events.first().map_location == "Map Location 2"
 
     # Test filtering by date range
-    timezone_est = pytz.timezone("America/New_York")
-    start_date = timezone.now().astimezone(timezone_est).date()
+    start_date = timezone.now().date()
     end_date = start_date + timezone.timedelta(days=1)
     events = filter_events(start_date=start_date, end_date=end_date)
     assert events.count() == 2  # Assuming both events fall within the range
@@ -105,8 +104,7 @@ def test_get_unique_locations(create_events):
 @pytest.mark.django_db
 def test_get_events_by_hour(create_events):
     """Test grouping events by hour."""
-    timezone_est = pytz.timezone("America/New_York")
-    events_by_hour = get_events_by_hour(Event.objects.all(), timezone_est)
+    events_by_hour = get_events_by_hour(Event.objects.all())
     assert len(events_by_hour) > 0
     for event in events_by_hour:
         assert "hour" in event
@@ -116,8 +114,7 @@ def test_get_events_by_hour(create_events):
 @pytest.mark.django_db
 def test_get_category_data(create_events):
     """Test parsing category data and grouping by hour."""
-    timezone_est = pytz.timezone("America/New_York")
-    category_data = get_category_data(Event.objects.all(), timezone_est)
+    category_data = get_category_data(Event.objects.all())
     assert len(category_data) > 0
     assert all("category" in data and "hour" in data for data in category_data)
 
