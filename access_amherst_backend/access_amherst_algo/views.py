@@ -65,8 +65,10 @@ def home(request):
 def map_view(request):
     events = Event.objects.exclude(latitude__isnull=True, longitude__isnull=True)
     # Apply naive datetime conversion right after query
+    time_standardized_events = []
     for event in events:
-        make_naive(event)
+        time_standardized_events.append(make_naive(event))
+    events = time_standardized_events
         
     folium_map = create_map([42.37031303771378, -72.51605520950432])
     add_event_markers(folium_map, events)
