@@ -476,79 +476,17 @@
         // Initialize sliders on page load
         document.addEventListener('DOMContentLoaded', () => {
             try {
-                // Initialize hourly chart
+                // Step 2: Just validate the chart contexts exist
                 const hourlyCtx = document.getElementById('hourlyChart');
-                if (!hourlyCtx) {
-                    console.error('Hourly chart canvas not found');
-                    return;
-                }
-                
-                const hourlyChart = new Chart(hourlyCtx, {
-                    type: 'bar',
-                    data: {...originalHourlyData},
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            y: { beginAtZero: true, ticks: { stepSize: 1 } }
-                        }
-                    }
-                });
-
-                // Initialize category chart
                 const categoryCtx = document.getElementById('categoryChart');
-                if (!categoryCtx) {
-                    console.error('Category chart canvas not found');
-                    return;
-                }
-                
-                const categoryChart = new Chart(categoryCtx, {
-                    type: 'pie',
-                    data: createCategoryChartData(getCategoryCounts(7, 22)),
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { position: 'right' } }
-                    }
-                });
-
-                // Initialize Gantt chart
                 const ganttCtx = document.getElementById('ganttChart');
-                if (!ganttCtx) {
-                    console.error('Gantt chart canvas not found');
+                
+                if (!hourlyCtx || !categoryCtx || !ganttCtx) {
+                    console.error('One or more chart canvases not found');
                     return;
                 }
-                
-                const ganttChart = new Chart(ganttCtx, {
-                    type: 'bar',
-                    data: { datasets: [] },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        indexAxis: 'y',
-                        scales: {
-                            x: {
-                                type: 'time',
-                                time: {
-                                    unit: 'hour',
-                                    displayFormats: {
-                                        hour: 'HH:mm'
-                                    }
-                                },
-                                position: 'top'
-                            },
-                            y: {
-                                beginAtZero: true,
-                                reverse: true
-                            }
-                        },
-                        plugins: {
-                            legend: { display: false }
-                        }
-                    }
-                });
 
-                // Initialize sliders and charts
+                // Step 3: Initialize sliders and update charts
                 updateCategoryChart();
                 updateHeatmap();
                 updateGanttChart();
@@ -649,9 +587,7 @@
         // Initialize Gantt chart
         const ganttChart = new Chart(document.getElementById('ganttChart'), {
             type: 'bar',
-            data: {
-                datasets: []
-            },
+            data: { datasets: [] },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
@@ -665,8 +601,7 @@
                                 hour: 'HH:mm'
                             }
                         },
-                        position: 'top',
-                        // Remove hardcoded min/max here
+                        position: 'top'
                     },
                     y: {
                         beginAtZero: true,
@@ -674,9 +609,7 @@
                     }
                 },
                 plugins: {
-                    legend: {
-                        display: false
-                    }
+                    legend: { display: false }
                 }
             }
         });
