@@ -40,6 +40,11 @@ jobs:
       run: |
         rm -rf ./staticfiles
         python manage.py collectstatic --noinput
+        ls -la staticfiles
+        # Verify CSS exists
+        find staticfiles -name "*.css"
+        # Check file permissions
+        chmod -R 755 staticfiles
     - name: Coveralls workflow
       working-directory: ./access_amherst_backend
       run: |
