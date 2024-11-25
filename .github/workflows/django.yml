@@ -35,6 +35,11 @@ jobs:
       working-directory: ./access_amherst_backend
       run: |
         pytest --cov --cov-config=.coveragerc --cov-fail-under=90
+    - name: Handle static files
+        working-directory: ./access_amherst_backend
+        run: |
+          rm -rf ./staticfiles
+          python manage.py collectstatic --noinput
     - name: Coveralls Workflow
       working-directory: ./access_amherst_backend
       run: |
