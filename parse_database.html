@@ -103,132 +103,8 @@
                 <div class="row">
                     <div class="col-12 col-lg-9 order-last order-lg-first rst-content">
                         <main role="main" id="main">
-    <section id="module-access_amherst_algo.parse_database">
-<span id="database-parser"></span><h1>Database Parser<a class="headerlink" href="#module-access_amherst_algo.parse_database" title="Link to this heading">¶</a></h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="access_amherst_algo.parse_database.filter_events">
-<span class="sig-prename descclassname"><span class="pre">access_amherst_algo.parse_database.</span></span><span class="sig-name descname"><span class="pre">filter_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#access_amherst_algo.parse_database.filter_events" title="Link to this definition">¶</a></dt>
-<dd><p>Filter events based on a search query, location, and date range.</p>
-<p>This function allows for filtering a list of events by title (via a search query),
-location (by matching the event's map location), and a date range (by filtering
-events that occur between the provided start and end dates). The function returns
-a distinct set of events that match the provided criteria.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>query</strong> (<em>str</em><em>, </em><em>optional</em>) -- The search query to filter event titles. The default is an empty string, which
-will not filter by title.</p></li>
-<li><p><strong>locations</strong> (<em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) -- A list of locations to filter events by their map location. The default is None,
-meaning no location filter is applied.</p></li>
-<li><p><strong>start_date</strong> (<em>date</em><em>, </em><em>optional</em>) -- The start date to filter events by their start time. The default is None.</p></li>
-<li><p><strong>end_date</strong> (<em>date</em><em>, </em><em>optional</em>) -- The end date to filter events by their start time. The default is None.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A QuerySet of distinct events that match the specified filters.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>QuerySet</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">events</span> <span class="o">=</span> <span class="n">filter_events</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="s2">&quot;Speaker&quot;</span><span class="p">,</span> <span class="n">locations</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Keefe Campus Center&quot;</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>                        <span class="n">start_date</span><span class="o">=</span><span class="s2">&quot;2024-11-01&quot;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s2">&quot;2024-11-30&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="access_amherst_algo.parse_database.get_category_data">
-<span class="sig-prename descclassname"><span class="pre">access_amherst_algo.parse_database.</span></span><span class="sig-name descname"><span class="pre">get_category_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#access_amherst_algo.parse_database.get_category_data" title="Link to this definition">¶</a></dt>
-<dd><p>Parse and clean category data for events, grouping by hour.</p>
-<p>This function processes a list of events, extracting and cleaning category
-data for each event. It filters out events with null start times, converts
-the event start times to the specified timezone, and then parses and normalizes
-the categories associated with each event. The data is returned as a list of
-dictionaries, each containing the cleaned category and the corresponding event hour.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>events</strong> (<em>QuerySet</em>) -- A queryset containing event data, which should include <cite>start_time</cite> and <cite>categories</cite> fields.</p></li>
-<li><p><strong>timezone</strong> (<em>pytz.timezone</em>) -- The timezone to which the event start times should be adjusted.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of dictionaries, each containing the cleaned category and corresponding event hour.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">category_data</span> <span class="o">=</span> <span class="n">get_category_data</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">pytz</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="s2">&quot;America/New_York&quot;</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="n">category_data</span><span class="p">:</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">category</span><span class="p">)</span>
-<span class="go">{&#39;category&#39;: &#39;Lecture&#39;, &#39;hour&#39;: 18}</span>
-<span class="go">{&#39;category&#39;: &#39;Workshop&#39;, &#39;hour&#39;: 19}</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="access_amherst_algo.parse_database.get_events_by_hour">
-<span class="sig-prename descclassname"><span class="pre">access_amherst_algo.parse_database.</span></span><span class="sig-name descname"><span class="pre">get_events_by_hour</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timezone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#access_amherst_algo.parse_database.get_events_by_hour" title="Link to this definition">¶</a></dt>
-<dd><p>Group events by the hour and adjust to specified timezone.</p>
-<p>This function groups events based on the hour of their start time and adjusts
-the hour to the specified timezone. It excludes events with null start times,
-annotates each event with the hour of the start time, and counts the number of
-events in each hour. The final result is a list of event counts by hour, with
-the hour adjusted to the provided timezone.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>events</strong> (<em>QuerySet</em>) -- A queryset containing event data, which should include a <cite>start_time</cite> field.</p></li>
-<li><p><strong>timezone</strong> (<em>pytz.timezone</em>) -- The timezone to which the event hours should be adjusted.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of dictionaries, each containing the hour and the corresponding event count.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">events_by_hour</span> <span class="o">=</span> <span class="n">get_events_by_hour</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">pytz</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="s2">&quot;America/New_York&quot;</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events_by_hour</span><span class="p">:</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
-<span class="go">{&#39;hour&#39;: 18, &#39;event_count&#39;: 5}</span>
-<span class="go">{&#39;hour&#39;: 19, &#39;event_count&#39;: 3}</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="access_amherst_algo.parse_database.get_unique_locations">
-<span class="sig-prename descclassname"><span class="pre">access_amherst_algo.parse_database.</span></span><span class="sig-name descname"><span class="pre">get_unique_locations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#access_amherst_algo.parse_database.get_unique_locations" title="Link to this definition">¶</a></dt>
-<dd><p>Retrieve distinct event locations for filtering.</p>
-<p>This function queries the database to return a list of unique event locations
-from the <cite>map_location</cite> field, which can be used for filtering events based on
-location.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A list of distinct event locations.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>list</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">locations</span> <span class="o">=</span> <span class="n">get_unique_locations</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">locations</span><span class="p">)</span>
-<span class="go">[&#39;Keefe Campus Center&#39;, &#39;Science Center&#39;, &#39; Frost Library&#39;]</span>
-</pre></div>
-</div>
-</dd></dl>
-
+    <section id="database-parser">
+<h1>Database Parser<a class="headerlink" href="#database-parser" title="Link to this heading">¶</a></h1>
 </section>
 
 </main>
@@ -241,22 +117,6 @@ location.</p>
     </a>
 </nav>
                     </div>
-                    
-                    <nav class="col-12 col-lg-3 pb-4">
-                        <div class="sticky-top toc page-toc" aria-labelledby="page-toc-heading">
-                            <p class="font-weight-bold" id="page-toc-heading">Page contents</p>
-                            <ul>
-<li><a class="reference internal" href="#">Database Parser</a><ul>
-<li><a class="reference internal" href="#access_amherst_algo.parse_database.filter_events"><code class="docutils literal notranslate"><span class="pre">filter_events()</span></code></a></li>
-<li><a class="reference internal" href="#access_amherst_algo.parse_database.get_category_data"><code class="docutils literal notranslate"><span class="pre">get_category_data()</span></code></a></li>
-<li><a class="reference internal" href="#access_amherst_algo.parse_database.get_events_by_hour"><code class="docutils literal notranslate"><span class="pre">get_events_by_hour()</span></code></a></li>
-<li><a class="reference internal" href="#access_amherst_algo.parse_database.get_unique_locations"><code class="docutils literal notranslate"><span class="pre">get_unique_locations()</span></code></a></li>
-</ul>
-</li>
-</ul>
-
-                        </div>
-                    </nav>
                     
                 </div>
             </div>
