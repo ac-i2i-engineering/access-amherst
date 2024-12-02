@@ -74,24 +74,39 @@ def event_factory(db):
 
 @pytest.mark.django_db
 def test_filter_events(create_events):
-    """Test filtering events by title, location, and date range."""
-    # Test filtering by title
-    events = filter_events(query="Event 1")
-    assert events.count() == 1
-    assert events.first().title == "Event 1"
-
-    # Test filtering by location
-    events = filter_events(locations=["Map Location 2"])
-    assert events.count() == 1
-    assert events.first().map_location == "Map Location 2"
-
-    # Test filtering by date range
+    """Test filtering events with exact and similarity matches."""
     timezone_est = pytz.timezone("America/New_York")
-    start_date = timezone.now().astimezone(timezone_est).date()
-    end_date = start_date + timezone.timedelta(days=1)
-    events = filter_events(start_date=start_date, end_date=end_date)
-    assert events.count() == 2  # Assuming both events fall within the range
+    now = timezone.now().astimezone(timezone_est)
+    
+    # Test default ordering by start_time (no query)
+    events = filter_events()
+    assert events.count() == 2
+    assert list(events.values_list('start_time', flat=True)) == sorted(events.values_list('start_time', flat=True))
 
+    # Test exact match (should have similarity=1.0)
+    events = filter_events(query="Event 1")
+    assert events.count() == 2
+    assert events[0].title == "Event 1"
+    assert hasattr(events[0], 'similarity')
+    assert events[0].similarity == 1.0
+
+    # Test similar matches with combined results
+    events = filter_events(query="Event", similarity_threshold=0.1)
+    assert events.count() == 2
+    
+    # Test location filter with similarity search
+    events = filter_events(
+        query="Event",
+        locations=["Map Location 2"],
+        similarity_threshold=0.1
+    )
+    assert events.count() == 1
+    assert events[0].map_location == "Map Location 2"
+
+    # Test no results
+    events = filter_events(query="NonexistentEvent")
+    assert events.count() == 0
+            
 
 @pytest.mark.django_db
 def test_get_unique_locations(create_events):

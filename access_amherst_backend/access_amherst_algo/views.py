@@ -61,7 +61,7 @@ def home(request):
         start_date=start_time.date(),
         end_date=end_time.date(),
     )
-    events = filter_events_by_category(events, categories).order_by("start_time")
+    events = filter_events_by_category(events, categories)
 
     return render(
         request,

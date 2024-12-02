@@ -35,7 +35,17 @@ jobs:
       working-directory: ./access_amherst_backend
       run: |
         pytest --cov --cov-config=.coveragerc --cov-fail-under=90
-    - name: Coveralls Workflow
+    - name: Handle static files
+      working-directory: ./access_amherst_backend
+      run: |
+        rm -rf ./staticfiles
+        python manage.py collectstatic --noinput
+        ls -la staticfiles
+        # Verify CSS exists
+        find staticfiles -name "*.css"
+        # Check file permissions
+        chmod -R 755 staticfiles
+    - name: Coveralls workflow
       working-directory: ./access_amherst_backend
       run: |
         coveralls --service=github
