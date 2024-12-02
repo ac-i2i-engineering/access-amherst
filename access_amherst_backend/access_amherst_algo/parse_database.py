@@ -6,10 +6,10 @@ import pytz
 import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from typing import List, Tuple
+from typing import List
 
 
-def filter_events(query="", locations=None, start_date=None, end_date=None, similarity_threshold=0.5):
+def filter_events(query="", locations=None, start_date=None, end_date=None, similarity_threshold=0.1):
     """
     Filter events based on a search query, location, and date range.
 
@@ -31,7 +31,7 @@ def filter_events(query="", locations=None, start_date=None, end_date=None, simi
     end_date : date, optional
         The end date to filter events by their start time. The default is None.
     similarity_threshold : float, optional
-        The cosine similarity threshold for filtering events by title. The default is 0.5.
+        The cosine similarity threshold for filtering events by title. The default is 0.1.
 
     Returns
     -------
@@ -47,66 +47,62 @@ def filter_events(query="", locations=None, start_date=None, end_date=None, simi
     """
     events = Event.objects.all()
     
-    # Filter locations
+    # Apply location and date filters
     if locations:
         events = events.filter(map_location__in=locations)
-
-    # Filter by date range
     if start_date and end_date:
         events = events.filter(start_time__date__range=[start_date, end_date])
 
-    # Search for events by title with cosine similarity
-    if query:
-        event_list = list(events)
-        if not event_list:
-            return Event.objects.none()
-            
-        titles = [preprocess_text(event.title) for event in event_list]
-        processed_query = preprocess_text(query)
-        
-        # Get similarity scores
-        similarity_scores = compute_similarity_scores(processed_query, titles)
-        
-        # Create (event_id, score) pairs and sort by score
-        event_scores = sorted(
-            [(event.id, score) for event, score in zip(event_list, similarity_scores)],
-            key=lambda x: x[1],
-            reverse=True  # Highest similarity first
-        )
-        
-        # Filter by threshold
-        filtered_scores = [
-            (event_id, score) for event_id, score in event_scores 
-            if score >= similarity_threshold
-        ]
-        
-        if not filtered_scores:
-            return Event.objects.none()
-            
-        # Unzip the filtered results
-        event_ids, scores = zip(*filtered_scores)
-        
-        # Create ordering cases
-        from django.db.models import Case, When, FloatField
-        
-        # Create position mapping for ordering
-        score_cases = [
-            When(pk=event_id, then=score)
-            for event_id, score in zip(event_ids, scores)
-        ]
-        
-        # At the end of the function, change:
-        return (Event.objects.filter(id__in=event_ids)
-                .annotate(
-                    similarity=Case(
-                        *score_cases,
-                        default=0.0,
-                        output_field=FloatField(),
-                    )
-                )
-                .order_by('-similarity'))
+    if not query:
+        return events.order_by('start_time').distinct()
 
-    return events.order_by('start_time').distinct()
+    # Get exact matches first (case insensitive)
+    exact_matches = events.filter(title__icontains=query)
+    
+    # Get similarity matches
+    event_list = list(events.exclude(id__in=exact_matches.values_list('id', flat=True)))
+    if not event_list:
+        return exact_matches
+        
+    titles = [preprocess_text(event.title) for event in event_list]
+    processed_query = preprocess_text(query)
+    
+    # Get similarity scores
+    similarity_scores = compute_similarity_scores(processed_query, titles)
+    
+    # Create and filter (event_id, score) pairs
+    event_scores = [
+        (event.id, score) 
+        for event, score in zip(event_list, similarity_scores)
+        if score >= similarity_threshold
+    ]
+    
+    if not event_scores:
+        return exact_matches
+        
+    # Prepare similarity cases for both exact and fuzzy matches
+    from django.db.models import Case, When, FloatField, Value
+
+    # Give exact matches a similarity score of 1.0
+    exact_scores = [(event.id, 1.0) for event in exact_matches]
+    all_scores = exact_scores + event_scores
+    
+    score_cases = [
+        When(pk=event_id, then=Value(score))
+        for event_id, score in all_scores
+    ]
+    
+    # Combine results with similarity annotations
+    return (Event.objects
+           .filter(id__in=[id for id, _ in all_scores])
+           .annotate(
+               similarity=Case(
+                   *score_cases,
+                   default=0.0,
+                   output_field=FloatField(),
+               )
+           )
+           .order_by('-similarity'))
 
 
 def preprocess_text(text: str) -> str:
