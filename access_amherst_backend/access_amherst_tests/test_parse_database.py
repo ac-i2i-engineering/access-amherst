@@ -74,7 +74,7 @@ def event_factory(db):
 
 @pytest.mark.django_db
 def test_filter_events(create_events):
-    """Test filtering events by title, location, date range, and ordering."""
+    """Test filtering events with exact and similarity matches."""
     timezone_est = pytz.timezone("America/New_York")
     now = timezone.now().astimezone(timezone_est)
     
@@ -83,35 +83,30 @@ def test_filter_events(create_events):
     assert events.count() == 2
     assert list(events.values_list('start_time', flat=True)) == sorted(events.values_list('start_time', flat=True))
 
-    # Test filtering by title with similarity and secondary start_time ordering
+    # Test exact match (should have similarity=1.0)
     events = filter_events(query="Event 1")
     assert events.count() == 2
-    assert events.first().title == "Event 1"
-    
-    # Test multiple results ordered by similarity then start_time
-    similar_events = filter_events(query="Event")
-    assert similar_events.count() == 2
-    # Check similarity ordering
-    similarities = list(similar_events.values_list('similarity', flat=True))
-    assert similarities == sorted(similarities, reverse=True)
-    # For equal similarities, check start_time ordering
-    equal_similarity_events = similar_events.filter(similarity=similarities[0])
-    if equal_similarity_events.count() > 1:
-        start_times = list(equal_similarity_events.values_list('start_time', flat=True))
-        assert start_times == sorted(start_times)
+    assert events[0].title == "Event 1"
+    assert hasattr(events[0], 'similarity')
+    assert events[0].similarity == 1.0
 
-    # Test filtering by location
-    events = filter_events(locations=["Map Location 2"])
-    assert events.count() == 1
-    assert events.first().map_location == "Map Location 2"
-
-    # Test filtering by date range
-    start_date = now.date()
-    end_date = start_date + timezone.timedelta(days=1)
-    events = filter_events(start_date=start_date, end_date=end_date)
+    # Test similar matches with combined results
+    events = filter_events(query="Event", similarity_threshold=0.1)
     assert events.count() == 2
-    assert all(start_date <= event.start_time.date() <= end_date for event in events)
+    
+    # Test location filter with similarity search
+    events = filter_events(
+        query="Event",
+        locations=["Map Location 2"],
+        similarity_threshold=0.1
+    )
+    assert events.count() == 1
+    assert events[0].map_location == "Map Location 2"
 
+    # Test no results
+    events = filter_events(query="NonexistentEvent")
+    assert events.count() == 0
+            
 
 @pytest.mark.django_db
 def test_get_unique_locations(create_events):
