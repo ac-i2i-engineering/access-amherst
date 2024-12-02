@@ -113,13 +113,6 @@ location_buckets = {
     },
 }
 
-# # Configure logging
-# logging.basicConfig(
-#     level=logging.INFO,
-#     format='%(asctime)s - %(levelname)s - %(message)s'
-# )
-
-
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,  # Set to DEBUG for detailed logs in a dev environment
