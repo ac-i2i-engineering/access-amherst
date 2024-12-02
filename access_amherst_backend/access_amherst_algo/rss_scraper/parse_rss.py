@@ -18,6 +18,7 @@ import logging
 
 load_dotenv()
 
+
 # Define location buckets with keywords as keys and dictionaries containing full names, latitude, and longitude as values
 location_buckets = {
     "Keefe": {
@@ -112,10 +113,21 @@ location_buckets = {
     },
 }
 
+# # Configure logging
+# logging.basicConfig(
+#     level=logging.INFO,
+#     format='%(asctime)s - %(levelname)s - %(message)s'
+# )
+
+
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
+    level=logging.INFO,  # Set to DEBUG for detailed logs in a dev environment
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[
+        logging.FileHandler("app.log"),  # Log to a file
+        logging.StreamHandler(),  # Also log to the console
+    ],
 )
 logger = logging.getLogger(__name__)
 
@@ -144,9 +156,12 @@ def categorize_location(location):
     >>> categorize_location("Friedmann Room")
     'Keefe Campus Center'
     """
+    logging.info("Categorizing location...")
     for keyword, info in location_buckets.items():
         if re.search(rf"\b{keyword}\b", location, re.IGNORECASE):
+            logging.info("Location found.")
             return info["name"]
+    logging.info("No location found.")
     return "Other"  # Default category if no match is found
 
 
@@ -187,6 +202,8 @@ def extract_event_details(item):
     >>> print(event_data['title'])
     'Literature Speaker Event'
     """
+
+    logging.info("Extracting event info.")
     ns = "{events}"
 
     # Extract primary fields from XML
@@ -201,11 +218,13 @@ def extract_event_details(item):
     description = item.find("description").text
     event_description = ""
     if description:
+        logging.info("Event description found. Parsing...")
         soup = BeautifulSoup(description, "html.parser")
         description_div = soup.find("div", class_="p-description description")
         event_description = "".join(
             str(content) for content in description_div.contents
         )
+        logging.info("Event description parsing completed.")
 
     # Gather categories and other event metadata
     categories = [category.text for category in item.findall("category")]
@@ -263,9 +282,12 @@ def get_lat_lng(location):
     >>> get_lat_lng("Friedmann Room")
     (42.37141504481807, -72.51479991450528)
     """
+    logging.info("Finding location lat/lng...")
     for keyword, info in location_buckets.items():
         if re.search(rf"\b{keyword}\b", location, re.IGNORECASE):
+            logging.info("Location lat/lng found")
             return info["latitude"], info["longitude"]
+    logging.info("Location lat/lng not found; None/None returned")
     return None, None
 
 
@@ -302,6 +324,7 @@ def add_random_offset(lat, lng):
     offset_range = 0.00015  # Adjust this value as needed for your map scale
     lat += random.uniform(-offset_range, offset_range)
     lng += random.uniform(-offset_range, offset_range)
+    logging.info("Offset added to location.")
     return lat, lng
 
 
@@ -348,6 +371,7 @@ def save_event_to_db(event_data):
     
     # Check if the dates are in UTC, if not, convert them to UTC
     # NOTE: It best practice to store all dates in UTC in the database
+    
     if pub_date.tzinfo is None or pub_date.tzinfo.utcoffset(pub_date) != pytz.UTC.utcoffset(pub_date):
         pub_date = pub_date.astimezone(pytz.UTC)
 
@@ -356,6 +380,7 @@ def save_event_to_db(event_data):
 
     if end_time.tzinfo is None or end_time.tzinfo.utcoffset(end_time) != pytz.UTC.utcoffset(end_time):
         end_time = end_time.astimezone(pytz.UTC)
+    logging.info("Converted date/time to UTC.")
 
     # get map location
     event_data["map_location"] = categorize_location(event_data["location"])
@@ -413,16 +438,19 @@ def create_events_list():
     >>> print(events[0]["title"])
     'Literature Speaker Event'
     """
+    logging.info("Creating events list from rss file...")
     rss_file_name = (
         "access_amherst_algo/rss_scraper/rss_files/hub_"
         + datetime.now().strftime("%Y_%m_%d_%H")
         + ".xml"
     )
     root = ET.parse(rss_file_name).getroot()
+    logging.info("Rss file sucessfully parsed.")
 
     events_list = [
         extract_event_details(item) for item in root.findall(".//item")
     ]
+    logging.info("Event list created.")
     return events_list
 
 
@@ -465,6 +493,7 @@ def save_json():
 def preprocess_title(title):
     """Preprocess title for comparison"""
     if not isinstance(title, str):
+        logging.warning("Title provided is not a string.")
         return ""
     # Convert to lowercase and remove special characters
     title = re.sub(r'[^\w\s]', '', title.lower())
