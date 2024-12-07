@@ -220,7 +220,7 @@ def extract_event_details(item):
         logging.info("Event description parsing completed.")
 
     # Gather categories and other event metadata
-    categories = [category.text for category in item.findall("category")]
+    categories = [format_category(category.text) for category in item.findall("category")]
     pub_date = item.find("pubDate").text
     start_time = item.find(ns + "start").text
     end_time = item.find(ns + "end").text
@@ -247,6 +247,16 @@ def extract_event_details(item):
         "categories": categories,
         "map_location": map_location,
     }
+
+
+def format_category(category_text):
+    # Split on capital letters and lowercase sequences
+    words = ''.join(' ' + c if c.isupper() else c for c in category_text).strip()
+    # Handle cases where words are all lowercase without spaces
+    if ' ' not in words:
+        words = category_text.replace('and', ' and ')
+    # Capitalize first letter of each word    
+    return ' '.join(word.capitalize() for word in words.split())
 
 
 # Use hardcoded lat/lng for each location bucket

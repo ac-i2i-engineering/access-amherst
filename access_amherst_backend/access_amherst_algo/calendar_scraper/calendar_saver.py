@@ -110,18 +110,18 @@ location_buckets = {
 
 # Define categories
 CATEGORY_DESCRIPTIONS = {
-    'social': 'social gathering party meetup networking friendship community hangout celebration',
-    'groupbusiness': 'business meeting organization planning committee board administrative professional',
-    'athletics': 'sports game match competition athletic fitness exercise tournament physical team',
-    'meeting': 'meeting discussion forum gathering assembly conference consultation',
-    'communityservice': 'volunteer service community help charity outreach support donation drive',
-    'arts': 'art exhibition gallery creative visual performance theater theatre display',
-    'concert': 'music concert performance band orchestra choir singing musical live',
-    'arts and crafts': 'crafts making creating DIY hands-on artistic craft project workshop art supplies',
-    'workshop': 'workshop training seminar learning skills development hands-on practical education',
-    'cultural': 'cultural diversity international multicultural heritage tradition celebration ethnic',
-    'thoughtfullearning': 'lecture academic learning educational intellectual discussion research scholarly',
-    'spirituality': 'spiritual religious meditation faith worship prayer mindfulness wellness'
+    'Social': 'social gathering party meetup networking friendship community hangout celebration',
+    'Group Business': 'business meeting organization planning committee board administrative professional',
+    'Athletics': 'sports game match competition athletic fitness exercise tournament physical team',
+    'Meeting': 'meeting discussion forum gathering assembly conference consultation',
+    'Community Service': 'volunteer service community help charity outreach support donation drive',
+    'Arts': 'art exhibition gallery creative visual performance theater theatre display',
+    'Concert': 'music concert performance band orchestra choir singing musical live',
+    'Arts and Craft': 'crafts making creating DIY hands-on artistic craft project workshop art supplies',
+    'Workshop': 'workshop training seminar learning skills development hands-on practical education',
+    'Cultural': 'cultural diversity international multicultural heritage tradition celebration ethnic',
+    'Thoughtful Learning': 'lecture academic learning educational intellectual discussion research scholarly',
+    'Spirituality': 'spiritual religious meditation faith worship prayer mindfulness wellness'
 }
 
 # Configure logging
