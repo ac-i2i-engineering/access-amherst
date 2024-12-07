@@ -70,6 +70,30 @@ class Event(models.Model):
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
     map_location = models.CharField(max_length=500, null=True)
+    
+    CATEGORY_EMOJI_MAP = {
+        'Social': '🥳',
+        'Group Business': '💼',
+        'Athletics': '🏃',
+        'Meeting': '🤝',
+        'Community Service': '🤲',
+        'Arts': '🎨',
+        'Concert': '🎶',
+        'Arts and Craft': '🧶',
+        'Workshop': '🛠️',
+        'Cultural': '🗿',
+        'Thoughtful Learning': '📚',
+        'Spirituality': '🕊️',
+    }
+
+    @property
+    def emojis(self):
+        if isinstance(self.categories, str):
+            categories_str = self.categories.strip('[]')
+            categories_list = [cat.strip().strip('"\'') for cat in categories_str.split(',') if cat.strip()]
+        else:
+            categories_list = self.categories
+        return [self.CATEGORY_EMOJI_MAP.get(category, " 🗓️ ") for category in categories_list]
 
     def __str__(self):
         return self.title

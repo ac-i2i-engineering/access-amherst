@@ -73,6 +73,37 @@
             height: var(--filter-height);
         }
 
+        .event-item {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-emojis {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 6px 12px;
+            border-radius: 25px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            z-index: 2;
+        }
+        
+        .emoji {
+            display: inline-block;
+            font-size: 1.3rem;
+            margin: 0 2px;
+            line-height: 1;
+            vertical-align: middle;
+        }
+        
+        /* Optional hover effect */
+        .event-emojis:hover {
+            transform: scale(1.05);
+            transition: transform 0.2s ease;
+        }
+
         @media (max-width: 1024px) {
             .filter-container {
                 grid-template-columns: 1fr 1fr;
@@ -152,11 +183,17 @@
                     <div class="event-links">
                         <a href="{{ event.link }}" class="event-link">More Info</a>
                         <a href="https://www.google.com/calendar/render?action=TEMPLATE&text={{ event.title|urlencode }}&dates={{ event.start_time|localtime|date:"Ymd\\THis" }}/{{ event.end_time|localtime|date:"Ymd\\THis" }}&details={{ event.description|urlencode }}%0A%0AMore information: {{ event.link|urlencode }}&location={{ event.location|urlencode }}" 
-                           target="_blank" 
-                           class="calendar-link">
+                            target="_blank" 
+                            class="calendar-link">
                             Add to Calendar
                         </a>
                     </div>
+                </div>
+
+                <div class="event-emojis">
+                    {% for emoji in event.emojis %}
+                        <span class="emoji">{{ emoji }}</span>
+                    {% endfor %}
                 </div>
             </article>
             {% empty %}

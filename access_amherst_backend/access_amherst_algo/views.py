@@ -18,6 +18,22 @@ from .parse_database import filter_events_by_category, get_unique_categories
 from .models import Event
 
 
+CATEGORY_EMOJI_MAP = {
+    'Social': '🥳',  # Partying Face
+    'Group Business': '💼',  # Briefcase
+    'Athletics': '🏃',  # Person Running
+    'Meeting': '🤝',  # Handshake
+    'Community Service': '🤲',  # Palms Up Together
+    'Arts': '🎨',  # Artist Palette
+    'Concert': '🎶',  # Musical Notes
+    'Arts and Craft': '🧶',  # Yarn
+    'Workshop': '🛠️',  # Hammer and Wrench
+    'Cultural': '🗿',  # Moai
+    'Thoughtful Learning': '📚',  # Books
+    'Spirituality': '🕊️',  # Dove
+}
+
+
 def home(request):
     """Render home page with search, location, date, and category filters."""
     # Get query parameters
@@ -61,8 +77,9 @@ def home(request):
         start_date=start_time.date(),
         end_date=end_time.date(),
     )
-    events = filter_events_by_category(events, categories)
 
+    events = filter_events_by_category(events, categories)
+    
     return render(
         request,
         "access_amherst_algo/home.html",
