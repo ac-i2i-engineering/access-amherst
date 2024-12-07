@@ -8,6 +8,16 @@
     <link href="https://cdn.jsdelivr.net/npm/slim-select@2.8.1/dist/slimselect.css" rel="stylesheet" />
     <link rel="stylesheet" href="{% static 'access_amherst_algo/css/styles.css' %}">
     <style>
+        .site-title {
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        .site-title:hover {
+            opacity: 0.9;
+        }
+
         /* Add to styles.css */
         .filter-container {
             display: grid;
@@ -119,7 +129,7 @@
 <body>
     <!-- Fixed Header -->
     <header class="main-header">
-        <div class="site-title">Amherst Connect</div>
+        <a href="{% url 'home' %}" class="site-title">Amherst Connect</a>
         <nav class="nav-buttons">
             <a href="{% url 'map' %}" class="nav-button">Map</a>
             <a href="{% url 'dashboard' %}" class="nav-button">Dashboard</a>

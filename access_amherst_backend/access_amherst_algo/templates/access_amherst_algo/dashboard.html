@@ -9,6 +9,16 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@2.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
     <link rel="stylesheet" href="{% static 'access_amherst_algo/css/styles.css' %}">
     <style>
+        .site-title {
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        .site-title:hover {
+            opacity: 0.9;
+        }
+
         /* Dashboard-specific styles only */
         .dashboard-grid {
             display: grid;
@@ -209,7 +219,7 @@
 </head>
 <body>
     <header class="main-header">
-        <div class="site-title">Amherst Connect</div>
+        <a href="{% url 'home' %}" class="site-title">Amherst Connect</a>
         <nav class="nav-buttons">
             <a href="{% url 'map' %}" class="nav-button">Map</a>
             <a href="{% url 'home' %}" class="nav-button">Events</a>
