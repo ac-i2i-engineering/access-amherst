@@ -7,6 +7,16 @@
     <title>Amherst Connect - Map</title>
     <link rel="stylesheet" href="{% static 'access_amherst_algo/css/styles.css' %}">
     <style>
+        .site-title {
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        .site-title:hover {
+            opacity: 0.9;
+        }
+
         /* Keep only map-specific styles */
         #map {
             flex: 1;
@@ -28,7 +38,7 @@
 </head>
 <body>
     <header class="main-header">
-        <div class="site-title">Amherst Connect</div>
+        <a href="{% url 'home' %}" class="site-title">Amherst Connect</a>
         <nav class="nav-buttons">
             <a href="{% url 'home' %}" class="nav-button">Events</a>
             <a href="{% url 'dashboard' %}" class="nav-button">Dashboard</a>

@@ -8,6 +8,16 @@
     <title>Amherst Connect - Calendar</title>
     <link rel="stylesheet" href="{% static 'access_amherst_algo/css/styles.css' %}">
     <style>
+        .site-title {
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        .site-title:hover {
+            opacity: 0.9;
+        }
+
         /* Grid Layout */
         .calendar-container {
             margin: calc(var(--header-height) + 10px) auto 0;
@@ -233,7 +243,7 @@
 <body>
     <!-- Navigation buttons -->
     <header class="main-header">
-        <div class="site-title">Amherst Connect</div>
+        <a href="{% url 'home' %}" class="site-title">Amherst Connect</a>
         <nav class="nav-buttons">
             <a href="{% url 'home' %}" class="nav-button">Events</a>
             <a href="{% url 'map' %}" class="nav-button">Map</a>
