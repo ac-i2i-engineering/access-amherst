@@ -15,6 +15,7 @@ from access_amherst_algo.rss_scraper.parse_rss import (
     get_lat_lng,
     add_random_offset,
     is_similar_event,
+    format_category,
 )
 from access_amherst_algo.models import Event
 from datetime import datetime
@@ -437,3 +438,29 @@ def test_create_events_list(
     assert events_list[0]["title"] == "Test Event"
 
 
+def test_format_category():
+    """Test the format_category function for various category string formats"""
+    
+    # Test basic lowercase concatenated words
+    assert format_category("academicCalendar") == "Academic Calendar"
+    
+    # Test camelCase
+    assert format_category("artsAndCulture") == "Arts And Culture"
+    
+    # Test handling of 'and' conjunction in lowercase
+    assert format_category("concertsandperformances") == "Concerts And Performances"
+    
+    # Test multiple word categories
+    assert format_category("campusLifeStudent") == "Campus Life Student"
+    
+    # Test single word
+    assert format_category("social") == "Social"
+    
+    # Test empty string
+    assert format_category("") == ""
+    
+    # Test mixed case
+    assert format_category("studentLifeActivities") == "Student Life Activities"
+    
+    # Test with spaces already present
+    assert format_category("campus life") == "Campus Life"
