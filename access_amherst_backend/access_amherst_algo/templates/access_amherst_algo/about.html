@@ -1,0 +1,191 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amherst Connect - About</title>
+    <link rel="stylesheet" href="{% static 'access_amherst_algo/css/styles.css' %}">
+    <style>
+        #about {
+            position: relative;
+            top: 100px;
+            margin: 40px 15%;
+            padding-bottom: 100px;
+        }
+
+        #about-intro {
+            margin: 40px 0;
+        }
+
+        /* Team-specific styles */
+        #about-team {
+            margin: 80px auto;
+        }
+
+        #team-cards {
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        .team-card {
+            width: 20%;
+            margin: 40px 0;
+            border-radius: 10px;
+        }
+
+        .team-name {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .team-role {
+            margin-top: 10px;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .team-img {
+            display: block;
+            margin: 0 auto 20px auto;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        #founder-card {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 60px;
+            border-radius: 10px;
+            background-color: #fff;
+        }
+
+        #founder-profile {
+            min-width: 200px;
+            margin-right: 50px;
+        }
+
+        @media (max-width: 1024px) {
+            #team-cards {
+                flex-wrap: wrap;
+            }
+
+            .team-card {
+                flex-basis: 50%;
+                box-sizing: border-box;
+                margin: 30px 0;
+            }
+
+            .team-img {
+                width: 150px;
+                height: 150px;
+            }
+
+            #founder-card {
+                flex-direction: column;
+            }
+
+            #founder-profile {
+                margin: 0 0 20px 0;
+            }
+        }
+
+        @media (max-width: 640px) {
+            #team-cards {
+                flex-wrap: wrap;
+            }
+
+            .team-card {
+                flex-basis: 100%;
+                box-sizing: border-box;
+            }
+
+            .team-img {
+                width: 180px;
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="site-title">Amherst Connect</div>
+        <nav class="nav-buttons">
+            <a href="{% url 'home' %}" class="nav-button">Events</a>
+            <a href="{% url 'dashboard' %}" class="nav-button">Dashboard</a>
+            <a href="{% url 'calendar' %}" class="nav-button">Calendar</a>
+            <a href="{% url 'about' %}" class="nav-button">About</a>
+        </nav>
+    </header>
+
+    <main id="about">
+        <h1>About Us</h1>
+
+        <section id="about-intro">
+            <p>Curious about how it all works? Explore our code on <a href="https://github.com/ac-i2i-engineering/access-amherst">Github</a>. Have suggestions? We’d love to hear them! Feel free to reach out to any of us—your feedback means a lot.</p>
+            <br>
+            <p>This project started with a simple goal: making it easier for everyone on campus to stay connected. The idea came from the frustration of not having one central place to find out what’s happening at Amherst. While the Daily Mammoth, the Hub, and other sources provide valuable information, they’re scattered and inconsistent. We wanted to change that by creating a single platform to bring everything together.</p>
+            <br>
+            <p>Amherst Connect is designed to be the one-stop hub for all campus events. It brings together information from multiple sources and displays it in real-time on a user-friendly map, a weekly calendar, and even a stats dashboard that highlights popular locations and times. With filters for location, time, and event type, it’s easy to find activities that match your interests.</p>
+            <br>
+            <p>Looking ahead, we’re planning to make Amherst Connect even smarter by adding AI and machine learning features. These will help recommend events you might enjoy and make campus life even more vibrant and connected.</p>
+            <br>
+            <p>We hope Amherst Connect helps you make the most of everything Amherst has to offer!</p>
+        </section>
+
+        <section id="about-team">
+            <h2>Engineering Team</h2>
+
+            <div id="team-cards">
+                <div class="team-card">
+                    <img class="team-img" src="{% static 'dhyeymavani25.png' %}" alt="Engineering Team Lead">
+                    <p class="team-name">Dhyey Mavani '25</p>
+                    <p class="team-role">Executive Director of Engineering</p>
+                </div>
+
+                <div class="team-card">
+                    <img class="team-img" src="{% static 'liamdavis27.png' %}" alt="Engineering Team Lead">
+                    <p class="team-name">Liam Davis '27</p>
+                    <p class="team-role">Senior Engineer</p>
+                </div>
+
+                <div class="team-card">
+                    <img class="team-img" src="{% static 'ryanji26.JPG' %}" alt="Engineering Team Lead">
+                    <p class="team-name">Ryan Ji '26</p>
+                    <p class="team-role">Senior Engineer</p>
+                </div>
+
+                <div class="team-card">
+                    <img class="team-img" src="{% static 'thuhoang28.jpg' %}" alt="Engineering Team Lead">
+                    <p class="team-name">Thu Hoang '28</p>
+                    <p class="team-role">Technical Product Manager</p>
+                </div>
+            </div>
+
+            <p>Led by Dhyey Mavani '25, we are a group of students from Amherst College who has come together to create Access Amherst. Our goal is to write clean, efficient code that powers a platform designed to enhance student life and improve access to campus events.</p>
+            <br>
+            <p>Throughout the development process, we worked closely to brainstorm, design, and refine every aspect of the application. Our teamwork was pivotal in bringing Access Amherst to life, as each of us brought unique skills and perspectives that enriched the project. We collaborated to ensure that the platform was user-friendly, with clear, streamlined event updates that make navigating campus activities simple and intuitive.</p>
+            <br>            
+            <p>Through our combined effort, Access Amherst is more than just an application—it’s a testament to what we can achieve when we come together to support our community. We are proud to have built a resource that we hope will foster a greater sense of connection and engagement among students at Amherst College.</p>
+        </section>
+
+        <section>
+            <h2 style="margin-bottom: 40px;">Founder</h2>
+
+            <div id="founder-card">
+                <div id="founder-profile">
+                    <img class="team-img founder-img" src="{% static 'shreyahegde26.jpg' %}" alt="Engineering Team Lead">
+                    <p class="team-name">Shreya Hegde '26</p>
+                </div>
+                <p>"When I noticed that Amherst sometimes feels isolating and that students sometimes struggle to stay informed about campus events, I felt compelled to take action. I wanted to make it easier for students to feel connected and discover the wide variety of opportunities on campus. Navigating the Daily Mammoth, the Hub, and Handshake can be challenging, so I started a web app to centralize all event information on a single platform."</p>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
