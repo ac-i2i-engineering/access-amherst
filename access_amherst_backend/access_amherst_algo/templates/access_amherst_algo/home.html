@@ -76,11 +76,11 @@
             top: var(--header-height);
             left: 0;
             right: 0;
-            background-color: transparent;
+            background-color: rgb(255, 255, 255);
             padding: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 4px rgba(0,0,0,0.1);
             z-index: 999;
-            height: var(--filter-height);
+            height: auto;
         }
 
         .event-item {
@@ -140,44 +140,47 @@
 
     <!-- Filter Section -->
     <section class="filter-section">
-        <form method="GET" action="" class="filter-container">
-            <div class="filter-group">
-                <label class="filter-label"><b>Search Events</b></label>
-                <input type="text" class="search-input" name="query" placeholder="Search..." value="{{ query }}">
-            </div>
-
-            <div class="filter-group">
-                <label class="filter-label"><b>Location</b></label>
-                <select id="location-select" name="locations" multiple>
-                    {% for location in unique_locations %}
-                        <option value="{{ location }}" {% if location in selected_locations %}selected{% endif %}>
-                            {{ location }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label class="filter-label"><b>Category</b></label>
-                <select id="category-select" name="categories" multiple>
-                    {% for category in unique_categories %}
-                        <option value="{{ category }}" {% if category in selected_categories %}selected{% endif %}>
-                            {{ category }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label class="filter-label"><b>Date Range</b></label>
-                <div class="date-group">
-                    <input type="date" class="date-input" name="start_date" value="{{ start_date }}" placeholder="Start Date">
-                    <input type="date" class="date-input" name="end_date" value="{{ end_date }}" placeholder="End Date">
+        <button class="filter-toggle" onclick="toggleFilter()">Search Filter</button>
+        <div class="filter-container" id="filterContainer">
+            <form method="GET" action="" class="filter-container">
+                <div class="filter-group">
+                    <label class="filter-label"><b>Search Events</b></label>
+                    <input type="text" class="search-input" name="query" placeholder="Search..." value="{{ query }}">
                 </div>
-            </div>
 
-            <button type="submit" class="filter-button">Apply Filters</button>
-        </form>
+                <div class="filter-group">
+                    <label class="filter-label"><b>Location</b></label>
+                    <select id="location-select" name="locations" multiple>
+                        {% for location in unique_locations %}
+                            <option value="{{ location }}" {% if location in selected_locations %}selected{% endif %}>
+                                {{ location }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label"><b>Category</b></label>
+                    <select id="category-select" name="categories" multiple>
+                        {% for category in unique_categories %}
+                            <option value="{{ category }}" {% if category in selected_categories %}selected{% endif %}>
+                                {{ category }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label"><b>Date Range</b></label>
+                    <div class="date-group">
+                        <input type="date" class="date-input" name="start_date" value="{{ start_date }}" placeholder="Start Date">
+                        <input type="date" class="date-input" name="end_date" value="{{ end_date }}" placeholder="End Date">
+                    </div>
+                </div>
+
+                <button type="submit" class="filter-button">Apply Filters</button>
+            </form>
+        </div>
     </section>
 
     <!-- Content Area -->
@@ -214,6 +217,25 @@
 
     <script src="https://cdn.jsdelivr.net/npm/slim-select@2.8.1/dist/slimselect.min.js"></script>
     <script>
+        var filterContainer = document.getElementById('filterContainer');
+
+        function toggleFilter() {
+            if (filterContainer.style.display === 'none' || filterContainer.style.display === '') {
+                filterContainer.style.display = 'block';
+            } else {
+                filterContainer.style.display = 'none';
+            }
+        }
+
+        window.addEventListener('resize', function() {
+            if (window.innerWidth <= 768) {
+                filterContainer.style.display = 'none';
+            }
+            else {
+                filterContainer.style.display = 'flex';
+            }
+        });
+
         // Initialize SlimSelect for better multi-select dropdowns
         new SlimSelect({
             select: '#location-select',
