@@ -1,4 +1,4 @@
-from django.db.models import Count
+from django.db.models import Count, F
 from django.db.models.functions import ExtractHour
 from .models import Event
 from datetime import datetime, time
@@ -187,25 +187,19 @@ def get_events_by_hour(events, timezone):
     events_by_hour = (
         events.exclude(
             start_time__isnull=True
-        )  # Exclude events with null start_time
-        .annotate(hour=ExtractHour("start_time"))
-        .values("hour")
-        .annotate(event_count=Count("id"))
-        .order_by("hour")
-    )
-
-    # Convert to local time
-    for event in events_by_hour:
-        if event["hour"] is not None:  # Handle None values
-            # Create a datetime object for the event hour in UTC
-            start_time_utc = datetime(1970, 1, 1, event["hour"], tzinfo=pytz.utc)
-            # Convert to the specified timezone
-            event["hour"] = start_time_utc.astimezone(timezone).hour
-        else:
-            event["hour"] = (
-                None  # Optionally, you can log or handle this differently
+        )
+        .annotate(
+            # Extract hour after converting to target timezone
+            hour=ExtractHour(
+                F('start_time'), 
+                tzinfo=timezone
             )
-
+        )
+        .values('hour')
+        .annotate(event_count=Count('id'))
+        .order_by('hour')
+    )
+    
     return events_by_hour
 
 
