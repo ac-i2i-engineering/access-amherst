@@ -181,7 +181,35 @@
     </section>
 
     <!-- Content Area -->
-    <main>
+    <main class="content-area">
+        <div class="event-grid">
+            {% for event in events %}
+            <article class="event-item">
+                {% load tz %}
+                <img class="event-image" src="{% if event.picture_link %}{{ event.picture_link }}{% else %}https://logodix.com/logo/1182384.png{% endif %}" alt="Event image">
+                <div class="event-content">
+                    <h2 class="event-title">{{ event.title }}</h2>
+                    <div class="event-info"><strong>Date:</strong> {{ event.start_time|localtime }}</div>
+                    <div class="event-info"><strong>Location:</strong> {{ event.location }}</div>
+                    <div class="event-links">
+                        <a href="{{ event.link }}" class="event-link">More Info</a>
+                        <a href="https://www.google.com/calendar/render?action=TEMPLATE&text={{ event.title|urlencode }}&dates={{ event.start_time|localtime|date:"Ymd\\THis" }}/{{ event.end_time|localtime|date:"Ymd\\THis" }}&details={{ event.description|urlencode }}%0A%0AMore information: {{ event.link|urlencode }}&location={{ event.location|urlencode }}" 
+                            target="_blank" 
+                            class="calendar-link">
+                            Add to Calendar
+                        </a>
+                    </div>
+                </div>
+                <div class="event-emojis">
+                    {% for emoji in event.emojis %}
+                        <span class="emoji">{{ emoji }}</span>
+                    {% endfor %}
+                </div>
+            </article>
+            {% empty %}
+                <p>No events found.</p>
+            {% endfor %}
+        </div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/slim-select@2.8.1/dist/slimselect.min.js"></script>
