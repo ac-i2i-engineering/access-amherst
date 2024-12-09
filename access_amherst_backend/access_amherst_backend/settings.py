@@ -25,8 +25,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
-SECRET_KEY = "django-insecure-g#^63*v$=mo#n=z##(nfa9v+m^c)u4^+92b3p3t#0xxpd-=j-7"
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -34,7 +33,6 @@ DEBUG = False
 ALLOWED_HOSTS = ["access-amherst-jbqe.onrender.com", "amherst-connect.com","127.0.0.1"]
 
 # Application definition
-
 INSTALLED_APPS = [
     "access_amherst_algo.apps.AccessAmherstAlgoConfig",
     "django.contrib.admin",
