@@ -33,7 +33,6 @@ DEBUG = False
 ALLOWED_HOSTS = ["access-amherst-jbqe.onrender.com", "amherst-connect.com","127.0.0.1"]
 
 # Application definition
-
 INSTALLED_APPS = [
     "access_amherst_algo.apps.AccessAmherstAlgoConfig",
     "django.contrib.admin",

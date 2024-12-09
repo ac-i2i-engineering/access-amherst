@@ -19,18 +19,18 @@ from .models import Event
 
 
 CATEGORY_EMOJI_MAP = {
-    'Social': '🥳',  # Partying Face
+    'Social': '👥',  # Two people
     'Group Business': '💼',  # Briefcase
     'Athletics': '🏃',  # Person Running
-    'Meeting': '🤝',  # Handshake
-    'Community Service': '🤲',  # Palms Up Together
-    'Arts': '🎨',  # Artist Palette
-    'Concert': '🎶',  # Musical Notes
+    'Meeting': '📅',  # Calendar
+    'Community Service': '🌍',  # Globe
+    'Arts': '🎭🎨',  # Performing Arts and Artist Palette
+    'Concert': '🎵',  # Musical Notes
     'Arts and Craft': '🧶',  # Yarn
     'Workshop': '🛠️',  # Hammer and Wrench
-    'Cultural': '🗿',  # Moai
-    'Thoughtful Learning': '📚',  # Books
-    'Spirituality': '🕊️',  # Dove
+    'Cultural': '🌏',  # Globe
+    'Thoughtful Learning': '🧠',  # Brain
+    'Spirituality': '☸️',  # Wheel of Dharma
 }
 
 
