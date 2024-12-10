@@ -92,6 +92,7 @@ def home(request):
             "end_date": end_date.isoformat(),
             "unique_locations": get_unique_locations(),
             "unique_categories": get_unique_categories(),
+            "category_emojis": CATEGORY_EMOJI_MAP,
         },
     )
 
