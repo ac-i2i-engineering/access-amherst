@@ -19,18 +19,18 @@ from .models import Event
 
 
 CATEGORY_EMOJI_MAP = {
-    'Social': '🥳',  # Partying Face
+    'Social': '👥',  # Two people
     'Group Business': '💼',  # Briefcase
     'Athletics': '🏃',  # Person Running
-    'Meeting': '🤝',  # Handshake
-    'Community Service': '🤲',  # Palms Up Together
-    'Arts': '🎨',  # Artist Palette
-    'Concert': '🎶',  # Musical Notes
+    'Meeting': '📅',  # Calendar
+    'Community Service': '🌍',  # Globe
+    'Arts': '🎭🎨',  # Performing Arts and Artist Palette
+    'Concert': '🎵',  # Musical Notes
     'Arts and Craft': '🧶',  # Yarn
     'Workshop': '🛠️',  # Hammer and Wrench
-    'Cultural': '🗿',  # Moai
-    'Thoughtful Learning': '📚',  # Books
-    'Spirituality': '🕊️',  # Dove
+    'Cultural': '🌏',  # Globe
+    'Thoughtful Learning': '🧠',  # Brain
+    'Spirituality': '☸️',  # Wheel of Dharma
 }
 
 
@@ -80,11 +80,36 @@ def home(request):
 
     events = filter_events_by_category(events, categories)
     
+    # Group events by date
+    events_by_date = {}
+    est = pytz.timezone("America/New_York")
+    today = timezone.now().astimezone(est).date()
+    
+    for event in events:
+        event_date = event.start_time.astimezone(est).date()
+        if event_date not in events_by_date:
+            events_by_date[event_date] = []
+        events_by_date[event_date] = sorted(
+            events_by_date[event_date] + [event],
+            key=lambda x: x.start_time
+        )
+
+    # Create date labels
+    date_labels = {}
+    for event_date in events_by_date.keys():
+        if event_date == today:
+            date_labels[event_date] = "Today"
+        elif event_date == today + timedelta(days=1):
+            date_labels[event_date] = "Tomorrow"
+        else:
+            date_labels[event_date] = event_date.strftime("%A, %B %d")
+
     return render(
         request,
         "access_amherst_algo/home.html",
         {
-            "events": events,
+            "events_by_date": events_by_date,
+            "date_labels": date_labels,
             "query": query,
             "selected_locations": locations,
             "selected_categories": categories,
@@ -92,6 +117,7 @@ def home(request):
             "end_date": end_date.isoformat(),
             "unique_locations": get_unique_locations(),
             "unique_categories": get_unique_categories(),
+            "category_emojis": CATEGORY_EMOJI_MAP,
         },
     )
 

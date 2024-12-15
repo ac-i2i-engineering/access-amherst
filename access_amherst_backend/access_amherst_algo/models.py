@@ -72,18 +72,18 @@ class Event(models.Model):
     map_location = models.CharField(max_length=500, null=True)
     
     CATEGORY_EMOJI_MAP = {
-        'Social': '🥳',
-        'Group Business': '💼',
-        'Athletics': '🏃',
-        'Meeting': '🤝',
-        'Community Service': '🤲',
-        'Arts': '🎨',
-        'Concert': '🎶',
-        'Arts and Craft': '🧶',
-        'Workshop': '🛠️',
-        'Cultural': '🗿',
-        'Thoughtful Learning': '📚',
-        'Spirituality': '🕊️',
+        'Social': '👥',  # Two people
+        'Group Business': '💼',  # Briefcase
+        'Athletics': '🏃',  # Person Running
+        'Meeting': '📅',  # Calendar
+        'Community Service': '🌍',  # Globe
+        'Arts': '🎭🎨',  # Performing Arts and Artist Palette
+        'Concert': '🎵',  # Musical Notes
+        'Arts and Craft': '🧶',  # Yarn
+        'Workshop': '🛠️',  # Hammer and Wrench
+        'Cultural': '🌏',  # Globe
+        'Thoughtful Learning': '🧠',  # Brain
+        'Spirituality': '☸️',  # Wheel of Dharma
     }
 
     @property
