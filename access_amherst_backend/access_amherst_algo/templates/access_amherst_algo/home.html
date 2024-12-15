@@ -155,8 +155,8 @@
 
     <!-- Filter Section -->
     <section class="filter-section">
-        <button class="filter-toggle" onclick="toggleFilter()">Search Filter</button>
-        <div class="filter-container" id="filterContainer">
+        <button class="filter-toggle" onclick="toggleFilter()">Expand Search Filter</button>
+        <div id="filterContainer">
             <form method="GET" action="" class="filter-container">
                 <div class="filter-group">
                     <label class="filter-label"><b>Search Events</b></label>
@@ -195,6 +195,7 @@
 
                 <button type="submit" class="filter-button">Apply Filters</button>
             </form>
+            <a id="collapse-toggle" onClick="toggleFilter()"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" /></svg></a>
         </div>
     </section>
 
@@ -240,21 +241,26 @@
     <script src="https://cdn.jsdelivr.net/npm/slim-select@2.8.1/dist/slimselect.min.js"></script>
     <script>
         var filterContainer = document.getElementById('filterContainer');
+        var collapseToggle = document.getElementById('collapse-toggle');
 
         function toggleFilter() {
             if (filterContainer.style.display === 'none' || filterContainer.style.display === '') {
                 filterContainer.style.display = 'block';
+                collapseToggle.style.display = 'block';
             } else {
                 filterContainer.style.display = 'none';
+                collapseToggle.style.display = 'none';
             }
         }
 
         window.addEventListener('resize', function() {
             if (window.innerWidth <= 768) {
                 filterContainer.style.display = 'none';
+                collapseToggle.style.display = 'none';
             }
             else {
-                filterContainer.style.display = 'flex';
+                filterContainer.style.display = 'grid';
+                collapseToggle.style.display = 'none';
             }
         });
 
