@@ -124,24 +124,6 @@
             position: relative;
             margin-bottom: 20px; /* Change from padding to margin */
         }
-    
-        @media (max-width: 1024px) {
-            .dashboard-grid {
-                grid-template-areas:
-                    "hourly"
-                    "category"
-                    "gantt"
-                    "heatmap";
-                grid-template-columns: 1fr;
-                grid-template-rows: auto auto auto auto;
-            }
-        }
-    
-        @media (max-width: 768px) {
-            .dashboard-grid {
-                padding-bottom: 60px; /* Increase bottom padding for mobile */
-            }
-        }
 
         .dual-slider-container {
             flex: 1;
@@ -204,6 +186,42 @@
             border: 2px solid var(--primary-color);
             cursor: pointer;
             z-index: 3;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-areas:
+                    "hourly"
+                    "category"
+                    "gantt"
+                    "heatmap";
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto auto auto;
+            }
+        }
+    
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                padding-bottom: 60px; /* Increase bottom padding for mobile */
+            }
+
+            .dashboard-card {
+                margin: 0 auto;
+                width: 90vw;
+            }
+
+            .slider-container {
+                flex-direction: column;
+                width: 80vw;
+            }
+
+            .dual-slider-container {
+                width: 70vw;
+            }
+
+            #categoryChart {
+                display: flex;
+            }
         }
     </style>
     
@@ -384,9 +402,19 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { position: 'right' } }
+                plugins: { legend: { position: getLegendPosition(), } }
             }
         });
+
+        // Function to get the legend position based on screen size
+        function getLegendPosition() {
+            if (window.innerWidth <= 640) {
+                return 'bottom'; // Set legend to bottom for small screens
+            } else {
+                return 'right'; // Set legend to right for larger screens
+            }
+        }
+
 
         // Slider functionality for category and heatmap charts
         function validateSliderValues(minSlider, maxSlider) {
@@ -630,7 +658,7 @@
                     borderColor: 'rgba(128, 0, 128, 1)',
                     borderWidth: 1,
                     borderSkipped: false,
-                    barPercentage: 0.8
+                    barPercentage: 0.8,
                 }];
 
                 // Update chart
@@ -681,7 +709,11 @@
                     },
                     y: {
                         beginAtZero: true,
-                        reverse: true
+                        reverse: true,
+                        ticks: {
+                            maxRotation: 0,
+                            minRotation: 0,
+                        },
                     }
                 },
                 plugins: {

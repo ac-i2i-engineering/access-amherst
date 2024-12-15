@@ -68,7 +68,7 @@
         }
         
         .content-area {
-            margin-top: calc(var(--header-height) + var(--filter-height) + 40px); /* Increased from 20px to 40px */
+            margin-top: calc(var(--header-height) + var(--filter-height) + 40px);
             padding: 0 20px;
         }
         
@@ -77,11 +77,11 @@
             top: var(--header-height);
             left: 0;
             right: 0;
-            background-color: transparent;
+            background-color: rgb(255, 255, 255);
             padding: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 4px rgba(0,0,0,0.1);
             z-index: 999;
-            height: var(--filter-height);
+            height: auto;
         }
 
         .event-item {
@@ -132,12 +132,39 @@
 
         @media (max-width: 1024px) {
             .filter-container {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 1fr;
                 gap: 10px;
             }
             
             .filter-button {
                 grid-column: span 2;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .filter-container {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .filter-group {
+                width: 100%;
+                overflow: hidden;
+            }
+
+            .filter-label {
+                margin: 8px 0;
+            }
+
+            .date-input {
+                width: 100%;
+                overflow: hidden;
+            }
+
+            .filter-button {
+                width: 100%;
+                overflow: hidden;
             }
         }
     </style>
@@ -155,44 +182,48 @@
 
     <!-- Filter Section -->
     <section class="filter-section">
-        <form method="GET" action="" class="filter-container">
-            <div class="filter-group">
-                <label class="filter-label"><b>Search Events</b></label>
-                <input type="text" class="search-input" name="query" placeholder="Search..." value="{{ query }}">
-            </div>
-
-            <div class="filter-group">
-                <label class="filter-label"><b>Location</b></label>
-                <select id="location-select" name="locations" multiple>
-                    {% for location in unique_locations %}
-                        <option value="{{ location }}" {% if location in selected_locations %}selected{% endif %}>
-                            {{ location }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label class="filter-label"><b>Category</b></label>
-                <select id="category-select" name="categories" multiple>
-                    {% for category in unique_categories %}
-                        <option value="{{ category }}" {% if category in selected_categories %}selected{% endif %}>
-                            {{ category }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label class="filter-label"><b>Date Range</b></label>
-                <div class="date-group">
-                    <input type="date" class="date-input" name="start_date" value="{{ start_date }}" placeholder="Start Date">
-                    <input type="date" class="date-input" name="end_date" value="{{ end_date }}" placeholder="End Date">
+        <button class="filter-toggle" onclick="toggleFilter()">Expand Search Filter</button>
+        <div id="filterContainer">
+            <form method="GET" action="" class="filter-container">
+                <div class="filter-group">
+                    <label class="filter-label"><b>Search Events</b></label>
+                    <input type="text" class="search-input" name="query" placeholder="Search..." value="{{ query }}">
                 </div>
-            </div>
 
-            <button type="submit" class="filter-button">Apply Filters</button>
-        </form>
+                <div class="filter-group">
+                    <label class="filter-label"><b>Location</b></label>
+                    <select id="location-select" name="locations" multiple>
+                        {% for location in unique_locations %}
+                            <option value="{{ location }}" {% if location in selected_locations %}selected{% endif %}>
+                                {{ location }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label"><b>Category</b></label>
+                    <select id="category-select" name="categories" multiple>
+                        {% for category in unique_categories %}
+                            <option value="{{ category }}" {% if category in selected_categories %}selected{% endif %}>
+                                {{ category }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label"><b>Date Range</b></label>
+                    <div class="date-group">
+                        <input type="date" class="date-input" name="start_date" value="{{ start_date }}" placeholder="Start Date">
+                        <input type="date" class="date-input" name="end_date" value="{{ end_date }}" placeholder="End Date">
+                    </div>
+                </div>
+
+                <button type="submit" class="filter-button">Apply Filters</button>
+            </form>
+            <a id="collapse-toggle" onClick="toggleFilter()"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" /></svg></a>
+        </div>
     </section>
 
     <!-- Content Area -->
@@ -236,6 +267,31 @@
 
     <script src="https://cdn.jsdelivr.net/npm/slim-select@2.8.1/dist/slimselect.min.js"></script>
     <script>
+        var filterContainer = document.getElementById('filterContainer');
+        var collapseToggle = document.getElementById('collapse-toggle');
+
+        function toggleFilter() {
+            if (filterContainer.style.display === 'none' || filterContainer.style.display === '') {
+                filterContainer.style.display = 'flex';
+                filterContainer.style.flexDirection = "column";
+                collapseToggle.style.display = 'block';
+            } else {
+                filterContainer.style.display = 'none';
+                collapseToggle.style.display = 'none';
+            }
+        }
+
+        window.addEventListener('resize', function() {
+            if (window.innerWidth <= 768) {
+                filterContainer.style.display = 'none';
+                collapseToggle.style.display = 'none';
+            }
+            else {
+                filterContainer.style.display = 'grid';
+                collapseToggle.style.display = 'none';
+            }
+        });
+
         // Initialize SlimSelect for better multi-select dropdowns
         new SlimSelect({
             select: '#location-select',
