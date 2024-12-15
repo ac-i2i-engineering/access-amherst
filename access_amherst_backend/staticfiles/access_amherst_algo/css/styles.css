@@ -97,12 +97,12 @@ h2 {
 
 .event-item {
     flex: 0 1 300px;  /* Don't grow, can shrink, base width 300px */
-    min-width: 300px;
+    min-width: 350px;
     max-width: 400px;
     position: relative;
     overflow: hidden;
     box-shadow: 0 2px 4px rgba(0,0,0,0.25);
-    margin: 0 auto;  /* Center-align the items */
+    margin: 10px;  /* Center-align the items */
 }
 
 /* Filter Styles */
