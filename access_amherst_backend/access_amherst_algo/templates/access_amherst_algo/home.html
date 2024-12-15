@@ -68,7 +68,7 @@
         }
         
         .content-area {
-            margin-top: calc(var(--header-height) + var(--filter-height) + 40px); /* Increased from 20px to 40px */
+            margin-top: calc(var(--header-height) + var(--filter-height) + 40px);
             padding: 0 20px;
         }
         
@@ -132,12 +132,39 @@
 
         @media (max-width: 1024px) {
             .filter-container {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 1fr;
                 gap: 10px;
             }
             
             .filter-button {
                 grid-column: span 2;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .filter-container {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .filter-group {
+                width: 100%;
+                overflow: hidden;
+            }
+
+            .filter-label {
+                margin: 8px 0;
+            }
+
+            .date-input {
+                width: 100%;
+                overflow: hidden;
+            }
+
+            .filter-button {
+                width: 100%;
+                overflow: hidden;
             }
         }
     </style>
@@ -245,7 +272,8 @@
 
         function toggleFilter() {
             if (filterContainer.style.display === 'none' || filterContainer.style.display === '') {
-                filterContainer.style.display = 'block';
+                filterContainer.style.display = 'flex';
+                filterContainer.style.flexDirection = "column";
                 collapseToggle.style.display = 'block';
             } else {
                 filterContainer.style.display = 'none';
