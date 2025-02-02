@@ -25,6 +25,29 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 def fetch_page(url):
+    """
+    Fetch the raw content of a webpage.
+
+    This function sends an HTTP GET request to the specified URL and retrieves 
+    the page content. It handles connection errors, timeouts, and unexpected 
+    errors, logging relevant information.
+
+    Parameters
+    ----------
+    url : str
+        The URL of the webpage to fetch.
+
+    Returns
+    -------
+    bytes or None
+        The raw HTML content of the page if the request is successful, otherwise None.
+
+    Examples
+    --------
+    >>> fetch_page("https://www.amherst.edu/news/events/calendar")
+    >>> if html_content:
+    >>>     print(html_content[:500])  # Print the first 500 bytes of the HTML content
+    """
     logger.info(f"Fetching URL: {url}")
     
     try:
@@ -41,6 +64,30 @@ def fetch_page(url):
         return None
 
 def scrape_page(url):
+    """
+    Scrape event details from a specified webpage.
+
+    This function retrieves and parses the HTML content of the given URL to extract 
+    event details, including title, author, publication date, description, start 
+    and end times, location, and image links. If a CAPTCHA is detected, the function 
+    will return an empty list.
+
+    Parameters
+    ----------
+    url : str
+        The URL of the event listing page to scrape.
+
+    Returns
+    -------
+    list of dict
+        A list of dictionaries, each containing extracted event details.
+
+    Examples
+    --------
+    >>> events = scrape_page("https://www.amherst.edu/news/events/calendar?_page=1")
+    >>> print(events[0]["title"])
+    'Literature Speaker Event'
+    """
     logger.info(f"Scraping page: {url}")
 
     try:
@@ -110,6 +157,23 @@ def scrape_page(url):
     return events
 
 def scrape_all_pages():
+    """
+    Scrape all event pages iteratively until no more events are found.
+
+    This function starts scraping from the first page and continues incrementing 
+    the page number until no more events are detected. It aggregates all scraped 
+    events into a single list.
+
+    Returns
+    -------
+    list of dict
+        A list of all scraped events across multiple pages.
+
+    Examples
+    --------
+    >>> all_events = scrape_all_pages()
+    >>> print(f"Total events scraped: {len(all_events)}")
+    """
     logger.info("Starting scrape of all pages")
     page = 0
     all_events = []
@@ -130,6 +194,29 @@ def scrape_all_pages():
     return all_events
 
 def save_to_json(events):
+    """
+    Save scraped event data to a JSON file.
+
+    This function saves event data to a timestamped JSON file inside the 
+    `calendar_json_outputs` directory. If a file already exists for the 
+    current date, the function will skip saving to avoid duplicates.
+
+    Parameters
+    ----------
+    events : list of dict
+        A list of dictionaries containing event data to be saved.
+
+    Returns
+    -------
+    None
+        This function does not return any value but logs success or failure messages.
+
+    Examples
+    --------
+    >>> events = [{"title": "Literature Speaker Event", "date": "2024-11-05", "location": "Keefe Campus Center"}]
+    >>> save_to_json(events)
+    Events saved to access_amherst_algo/calendar_scraper/calendar_json_outputs/events_2024-11-05.json
+    """
     logger.info("Saving events to JSON file")
     
     try:

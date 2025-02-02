@@ -106,14 +106,72 @@ def filter_events(query="", locations=None, start_date=None, end_date=None, simi
 
 
 def preprocess_text(text: str) -> str:
-    """Clean and normalize text for comparison."""
+    """
+    Clean and normalize text for comparison.
+
+    This function preprocesses a given text by converting it to lowercase, 
+    removing special characters, and trimming whitespace. It is useful for 
+    preparing text before performing similarity comparisons.
+
+    Parameters
+    ----------
+    text : str
+        The input text to be preprocessed.
+
+    Returns
+    -------
+    str
+        The cleaned and normalized text.
+
+    Examples
+    --------
+    >>> preprocess_text("  Guest Lecture: AI & Future  ")
+    'guest lecture ai future'
+
+    >>> preprocess_text("Health & Wellness")
+    'health wellness'
+    """
     # Convert to lowercase and remove special characters
     text = re.sub(r'[^\w\s]', '', text.lower())
     return text.strip()
 
 
 def compute_similarity_scores(query: str, titles: List[str]) -> List[float]:
-    """Compute cosine similarity between query and titles."""
+    """
+    Compute cosine similarity scores between a query and a list of titles.
+
+    This function calculates the similarity between a given query string and 
+    a list of titles using the TF-IDF vectorization technique and cosine similarity.
+    It assigns a score between 0 and 1 to each title, where higher values indicate 
+    greater similarity.
+
+    Parameters
+    ----------
+    query : str
+        The input query string to compare against the list of titles.
+    titles : list of str
+        A list of event titles to compare with the query.
+
+    Returns
+    -------
+    list of float
+        A list of similarity scores, where each score corresponds to the 
+        similarity between the query and a title in `titles`.
+
+    Notes
+    -----
+    - The function removes English stop words before computing similarity.
+    - If `query` or `titles` is empty, the function returns a list of zeros.
+
+    Examples
+    --------
+    >>> titles = ["AI in Healthcare", "Machine Learning Workshop", "Deep Learning Seminar"]
+    >>> compute_similarity_scores("Healthcare AI", titles)
+    [0.72, 0.15, 0.10]  # Example output, actual values may vary
+
+    >>> compute_similarity_scores("", titles)
+    [0.0, 0.0, 0.0]
+    """
     if not query or not titles:
         return [0] * len(titles)
     
@@ -272,6 +330,10 @@ def filter_events_by_category(events, categories):
     -------
     QuerySet
         A queryset of events matching the provided categories.
+
+    Examples
+    --------
+    >>> filter_events_by_category(events, ["Music", "Workshop"])
     """
     if categories:
         category_regex = "|".join(re.escape(cat) for cat in categories)
@@ -283,27 +345,64 @@ def clean_category(category):
     """
     Clean a category string to ensure it starts and ends with alphanumeric characters.
 
+    This function removes any leading or trailing non-alphanumeric characters 
+    (such as punctuation or whitespace) from a category string while keeping 
+    valid category names intact.
+
     Parameters
     ----------
     category : str
-        The category string to clean.
+        The category string to be cleaned.
 
     Returns
     -------
     str
-        The cleaned category string.
+        The cleaned category string with only alphanumeric characters at the 
+        beginning and end.
+
+    Notes
+    -----
+    - This function does not modify spaces or special characters within the string; 
+      it only trims non-alphanumeric characters from the start and end.
+
+    Examples
+    --------
+    >>> clean_category("  Science & Tech!  ")
+    'Science & Tech'
+
+    >>> clean_category("##Athletic##")
+    'Athletic'
+
+    >>> clean_category("...Art & Design...")
+    'Art & Design'
     """
     return re.sub(r"^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$", "", category.strip())
 
 
 def get_unique_categories():
     """
-    Retrieve unique categories from events, ensuring they start and end with alphanumeric characters.
+    Retrieve a sorted list of unique event categories.
+
+    This function collects all category values from events stored in the database, 
+    splits multiple categories within each event, cleans them using `clean_category()`, 
+    and returns a sorted list of unique category names.
 
     Returns
     -------
-    list
-        A list of unique, cleaned categories.
+    list of str
+        A sorted list of unique category names, cleaned to remove unwanted 
+        leading and trailing characters.
+
+    Notes
+    -----
+    - Assumes that categories in the database are stored as comma-separated strings.
+    - Uses `set` to remove duplicates before sorting the final list.
+    - Empty category fields are ignored.
+
+    Examples
+    --------
+    >>> get_unique_categories()
+    ['Athletic', 'Meeting', 'Workshop']
     """
     categories = Event.objects.values_list("categories", flat=True)
     unique_categories = set()

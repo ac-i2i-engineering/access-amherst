@@ -10,7 +10,28 @@ import pytz
 
 def load_json_file(folder_path):
     """
-    Load the most recent JSON file from the specified folder
+    Load the most recent JSON file from the specified folder.
+
+    This function scans the given directory for JSON files, identifies the most 
+    recently modified JSON file, and loads its contents. If no JSON files are found, 
+    it returns None.
+
+    Parameters
+    ----------
+    folder_path : str
+        The directory path where JSON files are stored.
+
+    Returns
+    -------
+    dict or list or None
+        The parsed JSON data if a file is found, otherwise None.
+
+    Examples
+    --------
+    >>> data = load_json_file("json_outputs")
+    >>> if data:
+    >>>     print(data)
+    [{'title': 'Literature Speaker Event', 'date': '2024-11-05', 'location': 'Keefe Campus Center'}]
     """
     try:
         json_files = [
@@ -32,7 +53,32 @@ def load_json_file(folder_path):
 
 def parse_datetime(date_str, pub_date=None):
     """
-    Parse datetime strings and convert to EST by applying UTC-5 offset
+    Parse datetime strings and convert them to UTC with an EST (UTC-5) offset.
+
+    This function attempts to parse a given date string using multiple formats, including 
+    standard date, ISO 8601, and RFC formats. If only a time is provided, it combines 
+    it with `pub_date` (if available) to create a full datetime object. The resulting 
+    datetime is then converted to UTC.
+
+    Parameters
+    ----------
+    date_str : str
+        The date or time string to be parsed.
+    pub_date : str or datetime, optional
+        A reference date to be used when parsing a time-only string.
+
+    Returns
+    -------
+    datetime or None
+        A timezone-aware datetime object converted to UTC or None if parsing fails.
+
+    Examples
+    --------
+    >>> parse_datetime("2024-11-05T18:00:00")
+    datetime.datetime(2024, 11, 5, 13, 0, tzinfo=<UTC>)
+
+    >>> parse_datetime("18:00:00", "2024-11-05")
+    datetime.datetime(2024, 11, 5, 13, 0, tzinfo=<UTC>)
     """
     if not date_str:
         return None
@@ -84,6 +130,30 @@ def parse_datetime(date_str, pub_date=None):
 def is_similar_event(event_data):
     """
     Check if a similar event exists using timezone-aware datetime comparison.
+
+    This function compares the event's start and end times with existing database 
+    records to determine if a similar event already exists. It also checks for 
+    title similarity using a string similarity ratio.
+
+    Parameters
+    ----------
+    event_data : dict
+        A dictionary containing event details such as title, start time, and end time.
+
+    Returns
+    -------
+    bool
+        True if a similar event exists, otherwise False.
+
+    Examples
+    --------
+    >>> event_data = {
+    >>>     "title": "Literature Speaker Event",
+    >>>     "starttime": "2024-11-05T18:00:00",
+    >>>     "endtime": "2024-11-05T20:00:00",
+    >>> }
+    >>> is_similar_event(event_data)
+    False
     """
     try:
         # Try to parse the times, using pub_date as reference for time-only formats
@@ -123,6 +193,32 @@ def is_similar_event(event_data):
 def save_event_to_db(event_data):
     """
     Save an event to the database, allowing nullable start and end times.
+
+    This function processes event data by generating a unique ID, parsing 
+    date fields, and saving or updating the event in the database.
+
+    Parameters
+    ----------
+    event_data : dict
+        A dictionary containing event details, including title, start and end times, 
+        location, categories, and other metadata.
+
+    Returns
+    -------
+    None
+        This function does not return any value but prints a success or failure message.
+
+    Examples
+    --------
+    >>> event_data = {
+    >>>     "title": "Literature Speaker Event",
+    >>>     "starttime": "2024-11-05T18:00:00",
+    >>>     "endtime": "2024-11-05T20:00:00",
+    >>>     "location": "Keefe Campus Center",
+    >>>     "categories": ["Lecture", "Workshop"]
+    >>> }
+    >>> save_event_to_db(event_data)
+    Successfully saved/updated event: Literature Speaker Event
     """
     try:
         # Generate a unique ID for email-sourced events
@@ -168,7 +264,21 @@ def save_event_to_db(event_data):
 # Process each event with updated logging
 def process_email_events():
     """
-    Main function to process email-sourced events with improved error handling.
+    Process and save events extracted from email JSON data.
+
+    This function loads the most recent JSON file containing extracted email event data, 
+    checks for duplicate events, and saves new events to the database.
+
+    Returns
+    -------
+    None
+        This function does not return any value but prints processing status messages.
+
+    Examples
+    --------
+    >>> process_email_events()
+    Skipping similar event: Literature Speaker Event
+    Successfully saved/updated event: New Music Festival
     """
     # Get the current directory
     curr_dir = os.path.dirname(os.path.abspath(__file__))

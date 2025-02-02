@@ -250,6 +250,35 @@ def extract_event_details(item):
 
 
 def format_category(category_text):
+    """
+    Format a category string for improved readability.
+
+    This function processes a category string by inserting spaces between 
+    words that are written in camel case, It also ensures proper spacing when 
+    "and" is encountered without surrounding spaces and capitalizes the first 
+    letter of each word.
+
+    Parameters
+    ----------
+    category_text : str
+        The category string to be formatted.
+
+    Returns
+    -------
+    str
+        The formatted category string with proper spacing and capitalization.
+
+    Examples
+    --------
+    >>> format_category("StudentLife")
+    'Student Life'
+
+    >>> format_category("healthAndWellness")
+    'Health And Wellness'
+
+    >>> format_category("communityservice")
+    'Community Service'
+    """
     # Split on capital letters and lowercase sequences
     words = ''.join(' ' + c if c.isupper() else c for c in category_text).strip()
     # Handle cases where words are all lowercase without spaces
@@ -359,7 +388,7 @@ def save_event_to_db(event_data):
     ...     "categories": ["Lecture", "Workshop"],
     ...     "pub_date": "Sun, 03 Nov 2024 05:30:25 GMT",
     ...     "starttime": "Tue, 05 Nov 2024 18:00:00 GMT",
-    ...     "endtime": "Tue, 05 Nov 2024 19:00:00 GMT",
+    ...     "endtime": "Tue, 05 Nov 2024 20:00:00 GMT",
     ...     "location": "Friedmann Room",
     ...     "author": "literature@amherst.edu",
     ...     "host": "Literature Club",
@@ -494,7 +523,27 @@ def save_json():
 
 
 def preprocess_title(title):
-    """Preprocess title for comparison"""
+    """
+    Preprocess an event title for better similarity comparison.
+
+    This function converts the title to lowercase, removes special characters, 
+    and trims extra whitespace to standardize event title formatting.
+
+    Parameters
+    ----------
+    title : str
+        The event title to preprocess.
+
+    Returns
+    -------
+    str
+        The cleaned and standardized event title.
+
+    Examples
+    --------
+    >>> preprocess_title("  Guest Lecture: AI & Future  ")
+    'guest lecture ai future'
+    """
     if not isinstance(title, str):
         logging.warning("Title provided is not a string.")
         return ""
@@ -507,6 +556,29 @@ def preprocess_title(title):
 def is_similar_event(event_data):
     """
     Check if a similar event exists using start time and title similarity.
+
+    This function searches for existing events that have the same start time 
+    and compares their titles using a TF-IDF similarity score. If a similar 
+    event is found, it returns True.
+
+    Parameters
+    ----------
+    event_data : dict
+        A dictionary containing event details such as title and start time.
+
+    Returns
+    -------
+    bool
+        True if a similar event exists, otherwise False.
+
+    Examples
+    --------
+    >>> event_data = {
+    >>>     "title": "Guest Lecture: AI & Future",
+    >>>     "start_time": "2024-11-10T18:00:00"
+    >>> }
+    >>> is_calendar_event_similar(event_data)
+    False
     """
     try:
         # Validate title
