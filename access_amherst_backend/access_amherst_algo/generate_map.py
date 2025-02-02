@@ -65,12 +65,12 @@ def add_event_markers(folium_map, events):
     >>>     Event(
     >>>         title="Literature Speaker Event",
     >>>         start_time=datetime(2024, 11, 5, 18, 0),
-    >>>         end_time=datetime(2024, 11, 5, 19, 0),
+    >>>         end_time=datetime(2024, 11, 5, 20, 0),
     >>>         location="Keefe Campus Center",
     >>>         map_location="Amherst, MA",
     >>>         latitude=42.37149564586236,
     >>>         longitude=-72.51478632450079,
-    >>>         event_description="A talk on modern literature."
+    >>>         event_description="Join us to hear our speaker's talk on American Literature! Food from a local restaurant will be provided."
     >>>     )
     >>> ]
     >>> add_event_markers(map_object, events)

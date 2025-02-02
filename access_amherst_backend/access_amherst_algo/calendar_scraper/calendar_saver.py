@@ -138,6 +138,27 @@ logger = logging.getLogger(__name__)
 def load_calendar_json(folder_path):
     """
     Load the most recent JSON file from the specified folder.
+
+    This function scans the given directory for JSON files, identifies the most 
+    recently modified JSON file, and loads its contents. If no JSON files are found, 
+    it returns None.
+
+    Parameters
+    ----------
+    folder_path : str
+        The directory path where JSON files are stored.
+
+    Returns
+    -------
+    dict or list or None
+        The parsed JSON data if a file is found, otherwise None.
+
+    Examples
+    --------
+    >>> data = load_calendar_json("calendar_json_outputs")
+    >>> if data:
+    >>>     print(data)
+    [{"title": "Literature Speaker Event", "date": "2024-11-05", "location": "Keefe Campus Center"}]
     """
     try:
         json_files = [
@@ -160,7 +181,31 @@ def load_calendar_json(folder_path):
 
 def parse_calendar_datetime(date_str, pub_date=None):
     """
-    Parse datetime strings and convert to UTC. Assumes ISO 8601 as primary format.
+    Parse datetime strings and convert them to UTC.
+
+    This function attempts to parse a given date string using ISO 8601 as the 
+    primary format. If the parsed datetime lacks timezone information, it assumes 
+    Eastern Time (ET) and converts it to UTC.
+
+    Parameters
+    ----------
+    date_str : str
+        The date or time string to be parsed.
+    pub_date : str or datetime, optional
+        A reference date used when parsing a time-only string.
+
+    Returns
+    -------
+    datetime or None
+        A timezone-aware datetime object converted to UTC or None if parsing fails.
+
+    Examples
+    --------
+    >>> parse_calendar_datetime("2024-11-10T18:00:00")
+    datetime.datetime(2024, 11, 10, 23, 0, tzinfo=<UTC>)
+
+    >>> parse_calendar_datetime("18:00:00", "2024-11-10")
+    datetime.datetime(2024, 11, 10, 23, 0, tzinfo=<UTC>)
     """
     if not date_str:
         return None
@@ -181,7 +226,27 @@ def parse_calendar_datetime(date_str, pub_date=None):
 
 
 def preprocess_title(title):
-    """Preprocess title for better comparison"""
+    """
+    Preprocess an event title for better similarity comparison.
+
+    This function converts the title to lowercase, removes special characters, 
+    and trims extra whitespace to standardize event title formatting.
+
+    Parameters
+    ----------
+    title : str
+        The event title to preprocess.
+
+    Returns
+    -------
+    str
+        The cleaned and standardized event title.
+
+    Examples
+    --------
+    >>> preprocess_title("  Guest Lecture: AI & Future  ")
+    'guest lecture ai future'
+    """
     if not isinstance(title, str):
         return ""
     # Convert to lowercase and remove special characters
@@ -193,7 +258,29 @@ def preprocess_title(title):
 def is_calendar_event_similar(event_data):
     """
     Check if a similar event exists using start time and title similarity.
-    Returns True if a similar event is found, False otherwise.
+
+    This function searches for existing events that have the same start time 
+    and compares their titles using a TF-IDF similarity score. If a similar 
+    event is found, it returns True.
+
+    Parameters
+    ----------
+    event_data : dict
+        A dictionary containing event details such as title and start time.
+
+    Returns
+    -------
+    bool
+        True if a similar event exists, otherwise False.
+
+    Examples
+    --------
+    >>> event_data = {
+    >>>     "title": "Guest Lecture: AI & Future",
+    >>>     "start_time": "2024-11-10T18:00:00"
+    >>> }
+    >>> is_calendar_event_similar(event_data)
+    False
     """
     try:
         # Get and validate new title
@@ -264,7 +351,27 @@ def is_calendar_event_similar(event_data):
 
 
 def categorize_location(location):
-    """Maps location string to predefined location bucket"""
+    """
+    Categorize a location based on predefined keyword mappings.
+
+    This function searches the location string for known keywords and assigns 
+    a corresponding category. If no match is found, it defaults to "Other."
+
+    Parameters
+    ----------
+    location : str
+        The location description to categorize.
+
+    Returns
+    -------
+    str
+        The mapped location category.
+
+    Examples
+    --------
+    >>> categorize_location("Friedmann Room")
+    'Keefe Campus Center'
+    """
     for keyword, info in location_buckets.items():
         if re.search(rf"\b{keyword}\b", location, re.IGNORECASE):
             return info["name"]
@@ -272,7 +379,30 @@ def categorize_location(location):
 
 
 def get_lat_lng(location):
-    """Gets coordinates for a location"""
+    """
+    Retrieve the latitude and longitude for a given location.
+
+    This function searches the `location` string for any keyword defined in the
+    `location_buckets` dictionary. If a keyword is found, it returns the associated 
+    latitude and longitude. If no keyword is matched, it returns `(None, None)`.
+
+    Parameters
+    ----------
+    location : str
+        The location description to search for latitude and longitude.
+
+    Returns
+    -------
+    tuple
+        A tuple containing:
+        - `latitude` (float or None): The latitude of the location if a match is found, otherwise None.
+        - `longitude` (float or None): The longitude of the location if a match is found, otherwise None.
+
+    Examples
+    --------
+    >>> get_lat_lng("Friedmann Room")
+    (42.37141504481807, -72.51479991450528)
+    """
     for keyword, info in location_buckets.items():
         if re.search(rf"\b{keyword}\b", location, re.IGNORECASE):
             return info["latitude"], info["longitude"]
@@ -280,7 +410,33 @@ def get_lat_lng(location):
 
 
 def add_random_offset(lat, lng):
-    """Adds small random offset to coordinates"""
+    """
+    Add a small random offset to latitude and longitude coordinates.
+
+    This function applies a random offset within a small range to both the latitude
+    and longitude values provided. The offset range can be adjusted as needed based
+    on the map scale to create minor variations in coordinates, which is useful for
+    visual distinction on maps.
+
+    Parameters
+    ----------
+    lat : float
+        The original latitude coordinate.
+    lng : float
+        The original longitude coordinate.
+
+    Returns
+    -------
+    tuple
+        A tuple containing:
+        - `lat` (float): The latitude with a random offset applied.
+        - `lng` (float): The longitude with a random offset applied.
+
+    Examples
+    --------
+    >>> add_random_offset(42.37141504481807, -72.51479991450528)
+    (42.37149564586236, -72.51478632450079)  # Results may vary due to randomness
+    """
     offset_range = 0.00015
     lat += random.uniform(-offset_range, offset_range)
     lng += random.uniform(-offset_range, offset_range) 
@@ -289,13 +445,26 @@ def add_random_offset(lat, lng):
 
 def assign_categories(event_data):
     """
-    Assign single best-matching category based on full event content.
-    
-    Args:
-        event_data (dict): Complete event JSON data
-        
-    Returns:
-        list: Single-item list containing best matching category
+    Assign the best-matching category to an event based on textual similarity.
+
+    This function compares event details against predefined category descriptions 
+    using TF-IDF similarity scoring to determine the most relevant category.
+
+    Parameters
+    ----------
+    event_data : dict
+        A dictionary containing event details such as title, description, and host.
+
+    Returns
+    -------
+    list
+        A list containing a single best-matching category.
+
+    Examples
+    --------
+    >>> event_data = {"title": "Literature Speaker Event", "event_description": "Join us in discussing our speaker's latest novel."}
+    >>> assign_categories(event_data)
+    ['Meeting']
     """
     try:
         # Combine relevant event fields into single text
@@ -343,7 +512,35 @@ def assign_categories(event_data):
 
 # Modify save_calendar_event_to_db:
 def save_calendar_event_to_db(event_data):
-    """Save calendar event to database with validation"""
+    """
+    Save an event to the database with location and category validation.
+
+    This function processes event details, assigns categories, generates a 
+    unique event ID, and updates or creates a database entry.
+
+    Parameters
+    ----------
+    event_data : dict
+        A dictionary containing event details, including title, time, location, 
+        and categories.
+
+    Returns
+    -------
+    None
+        This function does not return any value but logs success or failure messages.
+
+    Examples
+    --------
+    >>> event_data = {
+    >>>     "title": "Literature Speaker Event",
+    >>>     "start_time": "2024-11-05T18:00:00",
+    >>>     "end_time": "2024-11-05T20:00:00",
+    >>>     "location": "Keefe Campus Center",
+    >>>     "categories": ["Meeting"]
+    >>> }
+    >>> save_calendar_event_to_db(event_data)
+    Successfully saved event: Literature Speaker Event with categories ['Meeting']
+    """
     try:
         if not isinstance(event_data, dict):
             raise ValueError("Event data must be a dictionary")
@@ -411,7 +608,21 @@ def save_calendar_event_to_db(event_data):
 
 def process_calendar_events():
     """
-    Main function to process calendar-sourced events with improved error handling.
+    Process and save calendar events extracted from JSON data.
+
+    This function loads event data from a JSON file, checks for duplicate events, 
+    and saves new events to the database.
+
+    Returns
+    -------
+    None
+        This function does not return any value but logs processing status messages.
+
+    Examples
+    --------
+    >>> process_calendar_events()
+    Skipping similar event: Literature Speaker Event
+    Successfully saved/updated event: New Music Festival
     """
     curr_dir = os.path.dirname(os.path.abspath(__file__))
     json_folder = os.path.join(curr_dir, "calendar_json_outputs")

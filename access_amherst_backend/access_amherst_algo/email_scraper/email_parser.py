@@ -70,7 +70,7 @@ def connect_and_fetch_latest_email(
         The app password used for logging into the email account.
     subject_filter : str
         The subject filter used to search for specific emails.
-    mail_server : str, optional
+    mail_server : str, optional, default "imap.gmail.com"
         The IMAP email server address (default is 'imap.gmail.com').
 
     Returns
@@ -241,12 +241,13 @@ def save_to_json_file(data, filename, folder):
     Returns
     -------
     None
+        This function does not return any value but writes data to a JSON file.
 
     Examples
     --------
     >>> events = [{"title": "Literature Speaker Event", "date": "2024-11-05", "location": "Keefe Campus Center"}]
-    >>> save_to_json_file(events, "extracted_events_20241103_124530.json", "json_outputs")
-    Data successfully saved to json_outputs/extracted_events_20241103_124530.json
+    >>> save_to_json_file(events, "extracted_events_20241105_150000.json", "json_outputs")
+    Data successfully saved to json_outputs/extracted_events_20241105_150000.json
     """
     if not os.path.exists(folder):
         os.makedirs(folder)
@@ -278,14 +279,13 @@ def parse_email(subject_filter):
     Returns
     -------
     None
-        This function does not return any value. It prints status messages 
-        for each stage of the process (success or failure).
+        This function does not return any value but logs status messages for each stage of the process.
 
     Examples
     --------
     >>> parse_email("Amherst College Daily Mammoth for Sunday, November 3, 2024")
     Email fetched successfully.
-    Events saved successfully to extracted_events_20231107_150000.json.
+    Events saved successfully to extracted_events_20231103_150000.json.
     """
     app_password = os.getenv("EMAIL_PASSWORD")
 

@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 Welcome to Access Amherst's Documentation!
-==========================================
+====================================================
 
 Access Amherst is a web application created to connect Amherst College students through organized, accessible, and diverse event updates on campus. The platform provides real-time information on campus events, allowing students to plan their schedules effectively.
 
@@ -46,12 +46,13 @@ Contents
 ========
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
 
    event_model
    rss_scraper
    email_scraper
+   calendar_scraper
    parse_database
    generate_map   
 
