@@ -53,6 +53,7 @@
 <li class="toctree-l1"><a class="reference internal" href="event_model.html">Event Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rss_scraper.html">RSS Scraper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="email_scraper.html">Email Scraper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calendar_scraper.html">Calendar Scraper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="parse_database.html">Database Parser</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Map Generation</a></li>
 </ul>
@@ -132,12 +133,12 @@ location, description, and map coordinates (latitude and longitude).</p></li>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="n">Event</span><span class="p">(</span>
 <span class="gp">&gt;&gt;&gt; </span>        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Literature Speaker Event&quot;</span><span class="p">,</span>
 <span class="gp">&gt;&gt;&gt; </span>        <span class="n">start_time</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-<span class="gp">&gt;&gt;&gt; </span>        <span class="n">end_time</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">end_time</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
 <span class="gp">&gt;&gt;&gt; </span>        <span class="n">location</span><span class="o">=</span><span class="s2">&quot;Keefe Campus Center&quot;</span><span class="p">,</span>
 <span class="gp">&gt;&gt;&gt; </span>        <span class="n">map_location</span><span class="o">=</span><span class="s2">&quot;Amherst, MA&quot;</span><span class="p">,</span>
 <span class="gp">&gt;&gt;&gt; </span>        <span class="n">latitude</span><span class="o">=</span><span class="mf">42.37149564586236</span><span class="p">,</span>
 <span class="gp">&gt;&gt;&gt; </span>        <span class="n">longitude</span><span class="o">=-</span><span class="mf">72.51478632450079</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>        <span class="n">event_description</span><span class="o">=</span><span class="s2">&quot;A talk on modern literature.&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">event_description</span><span class="o">=</span><span class="s2">&quot;Join us to hear our speaker&#39;s talk on American Literature! Food from a local restaurant will be provided.&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">add_event_markers</span><span class="p">(</span><span class="n">map_object</span><span class="p">,</span> <span class="n">events</span><span class="p">)</span>

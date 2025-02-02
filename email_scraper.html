@@ -15,7 +15,7 @@
             <link rel="index" title="Index" href="genindex.html" />
             <link rel="search" title="Search" href="search.html" />
             <link rel="top" title="Access Amherst 0.0.0 documentation" href="#" />
-            <link rel="next" title="Database Parser" href="parse_database.html" />
+            <link rel="next" title="Calendar Scraper" href="calendar_scraper.html" />
             <link rel="prev" title="RSS Scraper" href="rss_scraper.html" />
     </head>
 <body>
@@ -54,6 +54,7 @@
 <li class="toctree-l1"><a class="reference internal" href="event_model.html">Event Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rss_scraper.html">RSS Scraper</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Email Scraper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calendar_scraper.html">Calendar Scraper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="parse_database.html">Database Parser</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generate_map.html">Map Generation</a></li>
 </ul>
@@ -103,8 +104,10 @@
                 <div class="row">
                     <div class="col-12 col-lg-9 order-last order-lg-first rst-content">
                         <main role="main" id="main">
-    <section id="module-access_amherst_algo.email_scraper.email_parser">
-<span id="email-scraper"></span><h1>Email Scraper<a class="headerlink" href="#module-access_amherst_algo.email_scraper.email_parser" title="Link to this heading">¶</a></h1>
+    <section id="email-scraper">
+<h1>Email Scraper<a class="headerlink" href="#email-scraper" title="Link to this heading">¶</a></h1>
+<section id="module-access_amherst_algo.email_scraper.email_parser">
+<span id="parse-email"></span><h2>Parse Email<a class="headerlink" href="#module-access_amherst_algo.email_scraper.email_parser" title="Link to this heading">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="access_amherst_algo.email_scraper.email_parser.connect_and_fetch_latest_email">
 <span class="sig-prename descclassname"><span class="pre">access_amherst_algo.email_scraper.email_parser.</span></span><span class="sig-name descname"><span class="pre">connect_and_fetch_latest_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject_filter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mail_server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'imap.gmail.com'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#access_amherst_algo.email_scraper.email_parser.connect_and_fetch_latest_email" title="Link to this definition">¶</a></dt>
@@ -118,7 +121,7 @@ of the latest matching email.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>app_password</strong> (<em>str</em>) -- The app password used for logging into the email account.</p></li>
 <li><p><strong>subject_filter</strong> (<em>str</em>) -- The subject filter used to search for specific emails.</p></li>
-<li><p><strong>mail_server</strong> (<em>str</em><em>, </em><em>optional</em>) -- The IMAP email server address (default is 'imap.gmail.com').</p></li>
+<li><p><strong>mail_server</strong> (<em>str</em><em>, </em><em>optional</em><em>, </em><em>default &quot;imap.gmail.com&quot;</em>) -- The IMAP email server address (default is 'imap.gmail.com').</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -207,8 +210,7 @@ a timestamped filename in the 'json_outputs' directory.</p>
 <dd class="field-odd"><p><strong>subject_filter</strong> (<em>str</em>) -- The subject filter to identify the relevant email to fetch.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>This function does not return any value. It prints status messages
-for each stage of the process (success or failure).</p>
+<dd class="field-even"><p>This function does not return any value but logs status messages for each stage of the process.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
@@ -217,7 +219,7 @@ for each stage of the process (success or failure).</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">parse_email</span><span class="p">(</span><span class="s2">&quot;Amherst College Daily Mammoth for Sunday, November 3, 2024&quot;</span><span class="p">)</span>
 <span class="go">Email fetched successfully.</span>
-<span class="go">Events saved successfully to extracted_events_20231107_150000.json.</span>
+<span class="go">Events saved successfully to extracted_events_20231103_150000.json.</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -240,18 +242,169 @@ containing event data.</p></li>
 (e.g., 'json_outputs').</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>This function does not return any value but writes data to a JSON file.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">events</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Literature Speaker Event&quot;</span><span class="p">,</span> <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="s2">&quot;2024-11-05&quot;</span><span class="p">,</span> <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="s2">&quot;Keefe Campus Center&quot;</span><span class="p">}]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">save_to_json_file</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="s2">&quot;extracted_events_20241105_150000.json&quot;</span><span class="p">,</span> <span class="s2">&quot;json_outputs&quot;</span><span class="p">)</span>
+<span class="go">Data successfully saved to json_outputs/extracted_events_20241105_150000.json</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="module-access_amherst_algo.email_scraper.email_saver">
+<span id="save-email"></span><h2>Save Email<a class="headerlink" href="#module-access_amherst_algo.email_scraper.email_saver" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="access_amherst_algo.email_scraper.email_saver.is_similar_event">
+<span class="sig-prename descclassname"><span class="pre">access_amherst_algo.email_scraper.email_saver.</span></span><span class="sig-name descname"><span class="pre">is_similar_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#access_amherst_algo.email_scraper.email_saver.is_similar_event" title="Link to this definition">¶</a></dt>
+<dd><p>Check if a similar event exists using timezone-aware datetime comparison.</p>
+<p>This function compares the event's start and end times with existing database
+records to determine if a similar event already exists. It also checks for
+title similarity using a string similarity ratio.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>event_data</strong> (<em>dict</em>) -- A dictionary containing event details such as title, start time, and end time.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if a similar event exists, otherwise False.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">event_data</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Literature Speaker Event&quot;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;starttime&quot;</span><span class="p">:</span> <span class="s2">&quot;2024-11-05T18:00:00&quot;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;endtime&quot;</span><span class="p">:</span> <span class="s2">&quot;2024-11-05T20:00:00&quot;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_similar_event</span><span class="p">(</span><span class="n">event_data</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="access_amherst_algo.email_scraper.email_saver.load_json_file">
+<span class="sig-prename descclassname"><span class="pre">access_amherst_algo.email_scraper.email_saver.</span></span><span class="sig-name descname"><span class="pre">load_json_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#access_amherst_algo.email_scraper.email_saver.load_json_file" title="Link to this definition">¶</a></dt>
+<dd><p>Load the most recent JSON file from the specified folder.</p>
+<p>This function scans the given directory for JSON files, identifies the most
+recently modified JSON file, and loads its contents. If no JSON files are found,
+it returns None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>folder_path</strong> (<em>str</em>) -- The directory path where JSON files are stored.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The parsed JSON data if a file is found, otherwise None.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict or list or None</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">load_json_file</span><span class="p">(</span><span class="s2">&quot;json_outputs&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">data</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">[{&#39;title&#39;: &#39;Literature Speaker Event&#39;, &#39;date&#39;: &#39;2024-11-05&#39;, &#39;location&#39;: &#39;Keefe Campus Center&#39;}]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="access_amherst_algo.email_scraper.email_saver.parse_datetime">
+<span class="sig-prename descclassname"><span class="pre">access_amherst_algo.email_scraper.email_saver.</span></span><span class="sig-name descname"><span class="pre">parse_datetime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date_str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pub_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#access_amherst_algo.email_scraper.email_saver.parse_datetime" title="Link to this definition">¶</a></dt>
+<dd><p>Parse datetime strings and convert them to UTC with an EST (UTC-5) offset.</p>
+<p>This function attempts to parse a given date string using multiple formats, including
+standard date, ISO 8601, and RFC formats. If only a time is provided, it combines
+it with <cite>pub_date</cite> (if available) to create a full datetime object. The resulting
+datetime is then converted to UTC.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>date_str</strong> (<em>str</em>) -- The date or time string to be parsed.</p></li>
+<li><p><strong>pub_date</strong> (<em>str</em><em> or </em><em>datetime</em><em>, </em><em>optional</em>) -- A reference date to be used when parsing a time-only string.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A timezone-aware datetime object converted to UTC or None if parsing fails.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>datetime or None</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">parse_datetime</span><span class="p">(</span><span class="s2">&quot;2024-11-05T18:00:00&quot;</span><span class="p">)</span>
+<span class="go">datetime.datetime(2024, 11, 5, 13, 0, tzinfo=&lt;UTC&gt;)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">parse_datetime</span><span class="p">(</span><span class="s2">&quot;18:00:00&quot;</span><span class="p">,</span> <span class="s2">&quot;2024-11-05&quot;</span><span class="p">)</span>
+<span class="go">datetime.datetime(2024, 11, 5, 13, 0, tzinfo=&lt;UTC&gt;)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="access_amherst_algo.email_scraper.email_saver.process_email_events">
+<span class="sig-prename descclassname"><span class="pre">access_amherst_algo.email_scraper.email_saver.</span></span><span class="sig-name descname"><span class="pre">process_email_events</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#access_amherst_algo.email_scraper.email_saver.process_email_events" title="Link to this definition">¶</a></dt>
+<dd><p>Process and save events extracted from email JSON data.</p>
+<p>This function loads the most recent JSON file containing extracted email event data,
+checks for duplicate events, and saves new events to the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>This function does not return any value but prints processing status messages.</p>
+</dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">events</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Literature Speaker Event&quot;</span><span class="p">,</span> <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="s2">&quot;2024-11-05&quot;</span><span class="p">,</span> <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="s2">&quot;Keefe Campus Center&quot;</span><span class="p">}]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">save_to_json_file</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="s2">&quot;extracted_events_20241103_124530.json&quot;</span><span class="p">,</span> <span class="s2">&quot;json_outputs&quot;</span><span class="p">)</span>
-<span class="go">Data successfully saved to json_outputs/extracted_events_20241103_124530.json</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">process_email_events</span><span class="p">()</span>
+<span class="go">Skipping similar event: Literature Speaker Event</span>
+<span class="go">Successfully saved/updated event: New Music Festival</span>
 </pre></div>
 </div>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="access_amherst_algo.email_scraper.email_saver.save_event_to_db">
+<span class="sig-prename descclassname"><span class="pre">access_amherst_algo.email_scraper.email_saver.</span></span><span class="sig-name descname"><span class="pre">save_event_to_db</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#access_amherst_algo.email_scraper.email_saver.save_event_to_db" title="Link to this definition">¶</a></dt>
+<dd><p>Save an event to the database, allowing nullable start and end times.</p>
+<p>This function processes event data by generating a unique ID, parsing
+date fields, and saving or updating the event in the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>event_data</strong> (<em>dict</em>) -- A dictionary containing event details, including title, start and end times,
+location, categories, and other metadata.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>This function does not return any value but prints a success or failure message.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">event_data</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Literature Speaker Event&quot;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;starttime&quot;</span><span class="p">:</span> <span class="s2">&quot;2024-11-05T18:00:00&quot;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;endtime&quot;</span><span class="p">:</span> <span class="s2">&quot;2024-11-05T20:00:00&quot;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="s2">&quot;Keefe Campus Center&quot;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;categories&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Lecture&quot;</span><span class="p">,</span> <span class="s2">&quot;Workshop&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">save_event_to_db</span><span class="p">(</span><span class="n">event_data</span><span class="p">)</span>
+<span class="go">Successfully saved/updated event: Literature Speaker Event</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
 </section>
 
 </main>
@@ -259,8 +412,8 @@ containing event data.</p></li>
     <a class="float-left" href="rss_scraper.html" title="Previous">
         <span aria-hidden="true">←&nbsp;</span>RSS Scraper
     </a>
-    <a class="float-right" href="parse_database.html" title="Next">
-        Database Parser <span aria-hidden="true">&nbsp;→</span>
+    <a class="float-right" href="calendar_scraper.html" title="Next">
+        Calendar Scraper <span aria-hidden="true">&nbsp;→</span>
     </a>
 </nav>
                     </div>
@@ -270,11 +423,22 @@ containing event data.</p></li>
                             <p class="font-weight-bold" id="page-toc-heading">Page contents</p>
                             <ul>
 <li><a class="reference internal" href="#">Email Scraper</a><ul>
+<li><a class="reference internal" href="#module-access_amherst_algo.email_scraper.email_parser">Parse Email</a><ul>
 <li><a class="reference internal" href="#access_amherst_algo.email_scraper.email_parser.connect_and_fetch_latest_email"><code class="docutils literal notranslate"><span class="pre">connect_and_fetch_latest_email()</span></code></a></li>
 <li><a class="reference internal" href="#access_amherst_algo.email_scraper.email_parser.extract_email_body"><code class="docutils literal notranslate"><span class="pre">extract_email_body()</span></code></a></li>
 <li><a class="reference internal" href="#access_amherst_algo.email_scraper.email_parser.extract_event_info_using_llama"><code class="docutils literal notranslate"><span class="pre">extract_event_info_using_llama()</span></code></a></li>
 <li><a class="reference internal" href="#access_amherst_algo.email_scraper.email_parser.parse_email"><code class="docutils literal notranslate"><span class="pre">parse_email()</span></code></a></li>
 <li><a class="reference internal" href="#access_amherst_algo.email_scraper.email_parser.save_to_json_file"><code class="docutils literal notranslate"><span class="pre">save_to_json_file()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-access_amherst_algo.email_scraper.email_saver">Save Email</a><ul>
+<li><a class="reference internal" href="#access_amherst_algo.email_scraper.email_saver.is_similar_event"><code class="docutils literal notranslate"><span class="pre">is_similar_event()</span></code></a></li>
+<li><a class="reference internal" href="#access_amherst_algo.email_scraper.email_saver.load_json_file"><code class="docutils literal notranslate"><span class="pre">load_json_file()</span></code></a></li>
+<li><a class="reference internal" href="#access_amherst_algo.email_scraper.email_saver.parse_datetime"><code class="docutils literal notranslate"><span class="pre">parse_datetime()</span></code></a></li>
+<li><a class="reference internal" href="#access_amherst_algo.email_scraper.email_saver.process_email_events"><code class="docutils literal notranslate"><span class="pre">process_email_events()</span></code></a></li>
+<li><a class="reference internal" href="#access_amherst_algo.email_scraper.email_saver.save_event_to_db"><code class="docutils literal notranslate"><span class="pre">save_event_to_db()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

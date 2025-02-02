@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html class="no-js" lang="python" data-content_root="./">
+<head>
+    <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+        <title>Calendar Scraper &mdash; Access Amherst 0.0.0 documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/dist/fontawesome.css" />
+      <link rel="stylesheet" type="text/css" href="_static/dist/theme.css?v=310cf088" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=02fa4ee0" />
+            <link rel="index" title="Index" href="genindex.html" />
+            <link rel="search" title="Search" href="search.html" />
+            <link rel="top" title="Access Amherst 0.0.0 documentation" href="#" />
+            <link rel="next" title="Database Parser" href="parse_database.html" />
+            <link rel="prev" title="Email Scraper" href="email_scraper.html" />
+    </head>
+<body>
+    <script type="text/javascript" src="_static/dist/blocking.js"></script>
+    <header class="container-fluid bg-primary">
+        <a class="btn btn-sm btn-light skip-to-content-link" href="#main">Skip to content</a>
+        <div class="container-fluid">
+            <div class="navbar navbar-expand-lg navbar-dark font-weight-bold">
+                
+                <button class="navbar-toggler btn btn-primary d-lg-none" type="button" data-toggle="collapse" data-target="#collapseSidebar" aria-expanded="false" aria-controls="collapseExample">
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="sr-only">menu</span>
+                </button>
+            </div>
+        </div>
+    </header>
+    <div class="container-fluid">
+        <div class="row">
+            <aside class="col-12 col-lg-3 sidebar-container">
+                <div id="collapseSidebar" class="collapse sticky-top d-lg-block pt-5 pr-lg-4">
+<div id="searchbox" class="searchbox mb-6 px-1" role="search">
+    <form id="search-form" action="search.html" autocomplete="off" method="get" role="search">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text border-right-0 bg-white py-3 pl-3 pr-2"><span class="fas fa-search"></span></div>
+            </div>
+            <input class="form-control py-3 pr-3 pl-1 h-100 border-left-0" type="search" name="q" placeholder="Search documentation" aria-label="Search documentation" id="searchinput" />
+        </div>
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div><div class="site-toc">
+    <nav class="toc mt-3" aria-label="Main menu">
+        <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="event_model.html">Event Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rss_scraper.html">RSS Scraper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="email_scraper.html">Email Scraper</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Calendar Scraper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parse_database.html">Database Parser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generate_map.html">Map Generation</a></li>
+</ul>
+
+    </nav>
+    <template data-toggle-item-template>
+        <button class="btn btn-sm btn-link toctree-expand" type="button">
+            <span class="sr-only">Toggle menu contents</span>
+        </button>
+    </template>
+</div>
+                    <div class="d-lg-none border-bottom">
+                        
+                    </div>
+                </div>
+            </aside>
+            <div class="col-12 col-lg-9 pt-5">
+                <header class="row align-items-baseline">
+                    <div class="col">
+                        <nav aria-label="breadcrumb">
+    <ol class="breadcrumb m-0 p-0 bg-transparent">
+        <li class="breadcrumb-item"><a href="index.html">Docs</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Calendar Scraper</li>
+    </ol>
+</nav>
+                    </div>
+                    <div class="col-sm-12 col-lg-auto mt-3 mt-lg-3">
+                        <noscript>
+                            <p>JavaScript is required to toggle light/dark mode..</p>
+                        </noscript>
+                        <button id="wagtail-theme" class="btn btn-sm btn-light text-decoration-none" type="button">
+                            <span class="dark-only"><i class="fas fa-sun"></i> Light mode</span>
+                            <span class="light-only"><i class="fas fa-moon"></i> Dark mode</span>
+                        </button>
+    <a class="btn btn-sm btn-light text-decoration-none" href="https://github.com/ac-i2i-engineering/access-amherst/" rel="nofollow">
+        <span class="btn-icon"><span class="fab fa-github"></span></span>
+        <span class="btn-text">GitHub</span>
+    </a>
+                        
+                    </div>
+                </header>
+                <div class="row" >
+                    <div class="col-12">
+                        <hr class="w-100 my-4">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-lg-9 order-last order-lg-first rst-content">
+                        <main role="main" id="main">
+    <section id="calendar-scraper">
+<h1>Calendar Scraper<a class="headerlink" href="#calendar-scraper" title="Link to this heading">¶</a></h1>
+<section id="module-access_amherst_algo.calendar_scraper.calendar_parser">
+<span id="parse-calendar"></span><h2>Parse Calendar<a class="headerlink" href="#module-access_amherst_algo.calendar_scraper.calendar_parser" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="access_amherst_algo.calendar_scraper.calendar_parser.fetch_page">
+<span class="sig-prename descclassname"><span class="pre">access_amherst_algo.calendar_scraper.calendar_parser.</span></span><span class="sig-name descname"><span class="pre">fetch_page</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#access_amherst_algo.calendar_scraper.calendar_parser.fetch_page" title="Link to this definition">¶</a></dt>
+<dd><p>Fetch the raw content of a webpage.</p>
+<p>This function sends an HTTP GET request to the specified URL and retrieves
+the page content. It handles connection errors, timeouts, and unexpected
+errors, logging relevant information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>url</strong> (<em>str</em>) -- The URL of the webpage to fetch.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The raw HTML content of the page if the request is successful, otherwise None.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bytes or None</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fetch_page</span><span class="p">(</span><span class="s2">&quot;https://www.amherst.edu/news/events/calendar&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">html_content</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">html_content</span><span class="p">[:</span><span class="mi">500</span><span class="p">])</span>  <span class="c1"># Print the first 500 bytes of the HTML content</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="access_amherst_algo.calendar_scraper.calendar_parser.save_to_json">
+<span class="sig-prename descclassname"><span class="pre">access_amherst_algo.calendar_scraper.calendar_parser.</span></span><span class="sig-name descname"><span class="pre">save_to_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#access_amherst_algo.calendar_scraper.calendar_parser.save_to_json" title="Link to this definition">¶</a></dt>
+<dd><p>Save scraped event data to a JSON file.</p>
+<p>This function saves event data to a timestamped JSON file inside the
+<cite>calendar_json_outputs</cite> directory. If a file already exists for the
+current date, the function will skip saving to avoid duplicates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>events</strong> (<em>list</em><em> of </em><em>dict</em>) -- A list of dictionaries containing event data to be saved.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>This function does not return any value but logs success or failure messages.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">events</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Literature Speaker Event&quot;</span><span class="p">,</span> <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="s2">&quot;2024-11-05&quot;</span><span class="p">,</span> <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="s2">&quot;Keefe Campus Center&quot;</span><span class="p">}]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">save_to_json</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
+<span class="go">Events saved to access_amherst_algo/calendar_scraper/calendar_json_outputs/events_2024-11-05.json</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="access_amherst_algo.calendar_scraper.calendar_parser.scrape_all_pages">
+<span class="sig-prename descclassname"><span class="pre">access_amherst_algo.calendar_scraper.calendar_parser.</span></span><span class="sig-name descname"><span class="pre">scrape_all_pages</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#access_amherst_algo.calendar_scraper.calendar_parser.scrape_all_pages" title="Link to this definition">¶</a></dt>
+<dd><p>Scrape all event pages iteratively until no more events are found.</p>
+<p>This function starts scraping from the first page and continues incrementing
+the page number until no more events are detected. It aggregates all scraped
+events into a single list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of all scraped events across multiple pages.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of dict</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">all_events</span> <span class="o">=</span> <span class="n">scrape_all_pages</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total events scraped: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">all_events</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="access_amherst_algo.calendar_scraper.calendar_parser.scrape_page">
+<span class="sig-prename descclassname"><span class="pre">access_amherst_algo.calendar_scraper.calendar_parser.</span></span><span class="sig-name descname"><span class="pre">scrape_page</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#access_amherst_algo.calendar_scraper.calendar_parser.scrape_page" title="Link to this definition">¶</a></dt>
+<dd><p>Scrape event details from a specified webpage.</p>
+<p>This function retrieves and parses the HTML content of the given URL to extract
+event details, including title, author, publication date, description, start
+and end times, location, and image links. If a CAPTCHA is detected, the function
+will return an empty list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>url</strong> (<em>str</em>) -- The URL of the event listing page to scrape.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of dictionaries, each containing extracted event details.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of dict</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">events</span> <span class="o">=</span> <span class="n">scrape_page</span><span class="p">(</span><span class="s2">&quot;https://www.amherst.edu/news/events/calendar?_page=1&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">events</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;title&quot;</span><span class="p">])</span>
+<span class="go">&#39;Literature Speaker Event&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="save-calendar">
+<h2>Save Calendar<a class="headerlink" href="#save-calendar" title="Link to this heading">¶</a></h2>
+</section>
+</section>
+
+</main>
+                        <nav aria-label="Page navigation" class="py-4 my-5 clearfix font-weight-bold border-top">
+    <a class="float-left" href="email_scraper.html" title="Previous">
+        <span aria-hidden="true">←&nbsp;</span>Email Scraper
+    </a>
+    <a class="float-right" href="parse_database.html" title="Next">
+        Database Parser <span aria-hidden="true">&nbsp;→</span>
+    </a>
+</nav>
+                    </div>
+                    
+                    <nav class="col-12 col-lg-3 pb-4">
+                        <div class="sticky-top toc page-toc" aria-labelledby="page-toc-heading">
+                            <p class="font-weight-bold" id="page-toc-heading">Page contents</p>
+                            <ul>
+<li><a class="reference internal" href="#">Calendar Scraper</a><ul>
+<li><a class="reference internal" href="#module-access_amherst_algo.calendar_scraper.calendar_parser">Parse Calendar</a><ul>
+<li><a class="reference internal" href="#access_amherst_algo.calendar_scraper.calendar_parser.fetch_page"><code class="docutils literal notranslate"><span class="pre">fetch_page()</span></code></a></li>
+<li><a class="reference internal" href="#access_amherst_algo.calendar_scraper.calendar_parser.save_to_json"><code class="docutils literal notranslate"><span class="pre">save_to_json()</span></code></a></li>
+<li><a class="reference internal" href="#access_amherst_algo.calendar_scraper.calendar_parser.scrape_all_pages"><code class="docutils literal notranslate"><span class="pre">scrape_all_pages()</span></code></a></li>
+<li><a class="reference internal" href="#access_amherst_algo.calendar_scraper.calendar_parser.scrape_page"><code class="docutils literal notranslate"><span class="pre">scrape_page()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#save-calendar">Save Calendar</a></li>
+</ul>
+</li>
+</ul>
+
+                        </div>
+                    </nav>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="container-fluid bg-primary text-light">
+        <div class="container">
+            <div class="row">
+        <div class="col p-4">
+            
+                <nav aria-label="Footer">
+                    <ul class="nav justify-content-center mb-2">
+                        
+                            
+                            
+                            <li class="nav-item"><a class="nav-link text-light"  href="https://wagtail.org/features/">Features</a></li>
+                        
+                            
+                            
+                            <li class="nav-item"><a class="nav-link text-light"  href="https://wagtail.org/about-wagtail/"> About Wagtail</a></li>
+                        
+                            
+                            
+                            <li class="nav-item"><a class="nav-link text-light"  href="https://wagtail.org/services/"> Services</a></li>
+                        
+                            
+                            
+                            <li class="nav-item"><a class="nav-link text-light"  href="https://wagtail.org/blog/"> Blog</a></li>
+                        
+                            
+                            
+                            <li class="nav-item"><a class="nav-link text-light"  href="https://wagtail.org/packages/"> Packages</a></li>
+                        
+                            
+                            
+                            <li class="nav-item"><a class="nav-link text-light"  href="https://wagtail.org/developers/"> Developers</a></li>
+                        
+                    </ul>
+                </nav>
+            
+            <div class="text-center">
+                    &copy; Copyright 2024, Dhyey Mavani, Liam Davis, Ryan Ji, Shreya Hegde, Thu Hoang
+            </div>
+            <div class="text-center text-white-50 font-italic mt-3">
+                <small>
+                    Created using
+                    <a href="https://github.com/wagtail/sphinx_wagtail_theme" rel="nofollow" target="_blank">
+                        Sphinx Wagtail Theme 6.4.0
+                    </a>
+                    and
+                    <a href="https://www.sphinx-doc.org/" rel="nofollow" target="_blank">
+                        Sphinx 8.1.3
+                    </a>
+                </small>
+            </div>
+        </div>
+    </div>
+        </div>
+    </footer>
+        <script src="_static/documentation_options.js?v=3dc53093"></script>
+        <script src="_static/doctools.js?v=9bcbadda"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=f281be69"></script>
+        <script type="text/javascript" src="_static/dist/theme.js"></script>
+        <script type="text/javascript" src="_static/dist/vendor.js"></script>
+        <script type="text/javascript" src="_static/searchtools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', function() { Search.loadIndex("searchindex.js"); });
+        </script>
+        <script type="text/javascript" id="searchindexloader"></script>
+    </body>
+</html>

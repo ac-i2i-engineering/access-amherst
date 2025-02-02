@@ -50,6 +50,7 @@
 <li class="toctree-l1"><a class="reference internal" href="event_model.html">Event Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rss_scraper.html">RSS Scraper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="email_scraper.html">Email Scraper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calendar_scraper.html">Calendar Scraper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="parse_database.html">Database Parser</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generate_map.html">Map Generation</a></li>
 </ul>
@@ -106,6 +107,8 @@
             | <a href="#E"><strong>E</strong></a>
             | <a href="#F"><strong>F</strong></a>
             | <a href="#G"><strong>G</strong></a>
+            | <a href="#I"><strong>I</strong></a>
+            | <a href="#L"><strong>L</strong></a>
             | <a href="#M"><strong>M</strong></a>
             | <a href="#P"><strong>P</strong></a>
             | <a href="#S"><strong>S</strong></a>
@@ -118,6 +121,14 @@
                         <ul>
                                 <li>
                                     
+        access_amherst_algo.calendar_scraper.calendar_parser
+
+                                        <ul>
+                                                <li><a href="calendar_scraper.html#module-access_amherst_algo.calendar_scraper.calendar_parser">module</a>
+</li>
+                                        </ul></li>
+                                <li>
+                                    
         access_amherst_algo.email_scraper.email_parser
 
                                         <ul>
@@ -126,16 +137,24 @@
                                         </ul></li>
                                 <li>
                                     
-        access_amherst_algo.generate_map
+        access_amherst_algo.email_scraper.email_saver
 
                                         <ul>
-                                                <li><a href="generate_map.html#module-access_amherst_algo.generate_map">module</a>
+                                                <li><a href="email_scraper.html#module-access_amherst_algo.email_scraper.email_saver">module</a>
 </li>
                                         </ul></li>
                         </ul>
                     </td>
                     <td>
                         <ul>
+                                <li>
+                                    
+        access_amherst_algo.generate_map
+
+                                        <ul>
+                                                <li><a href="generate_map.html#module-access_amherst_algo.generate_map">module</a>
+</li>
+                                        </ul></li>
                                 <li>
                                     
         access_amherst_algo.models
@@ -215,6 +234,13 @@
                     <td>
                         <ul>
                                 <li>
+                                    <a href="calendar_scraper.html#access_amherst_algo.calendar_scraper.calendar_parser.fetch_page">fetch_page() (in module access_amherst_algo.calendar_scraper.calendar_parser)</a>
+</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                                <li>
                                     <a href="rss_scraper.html#access_amherst_algo.rss_scraper.fetch_rss.fetch_rss">fetch_rss() (in module access_amherst_algo.rss_scraper.fetch_rss)</a>
 </li>
                         </ul>
@@ -235,6 +261,32 @@
             </tr>
         </table>
     
+        <h2 id="I">I</h2>
+        <table class="indextable genindextable">
+            <tr>
+                    <td>
+                        <ul>
+                                <li>
+                                    <a href="email_scraper.html#access_amherst_algo.email_scraper.email_saver.is_similar_event">is_similar_event() (in module access_amherst_algo.email_scraper.email_saver)</a>
+</li>
+                        </ul>
+                    </td>
+            </tr>
+        </table>
+    
+        <h2 id="L">L</h2>
+        <table class="indextable genindextable">
+            <tr>
+                    <td>
+                        <ul>
+                                <li>
+                                    <a href="email_scraper.html#access_amherst_algo.email_scraper.email_saver.load_json_file">load_json_file() (in module access_amherst_algo.email_scraper.email_saver)</a>
+</li>
+                        </ul>
+                    </td>
+            </tr>
+        </table>
+    
         <h2 id="M">M</h2>
         <table class="indextable genindextable">
             <tr>
@@ -245,7 +297,11 @@
         module
 
                                         <ul>
+                                                <li><a href="calendar_scraper.html#module-access_amherst_algo.calendar_scraper.calendar_parser">access_amherst_algo.calendar_scraper.calendar_parser</a>
+</li>
                                                 <li><a href="email_scraper.html#module-access_amherst_algo.email_scraper.email_parser">access_amherst_algo.email_scraper.email_parser</a>
+</li>
+                                                <li><a href="email_scraper.html#module-access_amherst_algo.email_scraper.email_saver">access_amherst_algo.email_scraper.email_saver</a>
 </li>
                                                 <li><a href="generate_map.html#module-access_amherst_algo.generate_map">access_amherst_algo.generate_map</a>
 </li>
@@ -265,7 +321,17 @@
                     <td>
                         <ul>
                                 <li>
+                                    <a href="email_scraper.html#access_amherst_algo.email_scraper.email_saver.parse_datetime">parse_datetime() (in module access_amherst_algo.email_scraper.email_saver)</a>
+</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                                <li>
                                     <a href="email_scraper.html#access_amherst_algo.email_scraper.email_parser.parse_email">parse_email() (in module access_amherst_algo.email_scraper.email_parser)</a>
+</li>
+                                <li>
+                                    <a href="email_scraper.html#access_amherst_algo.email_scraper.email_saver.process_email_events">process_email_events() (in module access_amherst_algo.email_scraper.email_saver)</a>
 </li>
                         </ul>
                     </td>
@@ -278,7 +344,23 @@
                     <td>
                         <ul>
                                 <li>
+                                    <a href="email_scraper.html#access_amherst_algo.email_scraper.email_saver.save_event_to_db">save_event_to_db() (in module access_amherst_algo.email_scraper.email_saver)</a>
+</li>
+                                <li>
+                                    <a href="calendar_scraper.html#access_amherst_algo.calendar_scraper.calendar_parser.save_to_json">save_to_json() (in module access_amherst_algo.calendar_scraper.calendar_parser)</a>
+</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                                <li>
                                     <a href="email_scraper.html#access_amherst_algo.email_scraper.email_parser.save_to_json_file">save_to_json_file() (in module access_amherst_algo.email_scraper.email_parser)</a>
+</li>
+                                <li>
+                                    <a href="calendar_scraper.html#access_amherst_algo.calendar_scraper.calendar_parser.scrape_all_pages">scrape_all_pages() (in module access_amherst_algo.calendar_scraper.calendar_parser)</a>
+</li>
+                                <li>
+                                    <a href="calendar_scraper.html#access_amherst_algo.calendar_scraper.calendar_parser.scrape_page">scrape_page() (in module access_amherst_algo.calendar_scraper.calendar_parser)</a>
 </li>
                         </ul>
                     </td>
