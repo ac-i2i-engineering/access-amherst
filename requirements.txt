@@ -27,7 +27,7 @@ coverage==7.6.4
 coveralls==4.0.1
 cron-descriptor==1.4.5
 distlib==0.3.9
-Django==5.1.5
+Django==5.1.7
 django-timezone-field==7.0
 docopt==0.6.2
 docstring_parser==0.16
