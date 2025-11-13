@@ -18,7 +18,6 @@
             margin: 40px 0;
         }
 
-        /* Team-specific styles */
         #about-team {
             margin: 80px auto;
         }
@@ -26,47 +25,25 @@
         #team-cards {
             display: flex;
             justify-content: space-evenly;
+            flex-wrap: wrap;
         }
 
         .team-card {
             width: 20%;
             margin: 40px 0;
             border-radius: 10px;
+            text-align: center;
         }
 
         .team-name {
             margin: 0;
             font-size: 1.2rem;
             font-weight: 600;
-            text-align: center;
         }
 
         .team-role {
             margin-top: 10px;
             font-size: 1rem;
-            text-align: center;
-        }
-
-        #contributions {
-            text-align: center;
-            margin: 20px 0;
-        }
-        
-        #contributions a {
-            color: var(--primary-color);
-            text-decoration: underline;
-            padding: 5px 10px;
-            border-radius: 4px;
-            background-color: rgba(var(--primary-color-rgb), 0.1);
-            border: 1px solid var(--primary-color);
-            transition: all 0.2s ease;
-        }
-        
-        #contributions a:hover {
-            background-color: var(--primary-color);
-            color: white;
-            text-decoration: none;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .team-img {
@@ -78,30 +55,9 @@
             object-fit: cover;
         }
 
-        #founder-card {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            margin: 20px 0;
-            padding: 40px 60px;
-            border-radius: 10px;
-            background-color: #fff;
-        }
-
-        #founder-profile {
-            min-width: 200px;
-            margin-right: 50px;
-        }
-
         @media (max-width: 1024px) {
-            #team-cards {
-                flex-wrap: wrap;
-            }
-
             .team-card {
-                flex-basis: 50%;
-                box-sizing: border-box;
+                flex-basis: 45%;
                 margin: 30px 0;
             }
 
@@ -109,34 +65,16 @@
                 width: 150px;
                 height: 150px;
             }
-
-            #founder-card {
-                flex-direction: column;
-                padding: 35px;
-            }
-
-            #founder-profile {
-                margin: 0 0 20px 0;
-            }
         }
 
         @media (max-width: 640px) {
-            #team-cards {
-                flex-wrap: wrap;
-            }
-
             .team-card {
                 flex-basis: 100%;
-                box-sizing: border-box;
             }
 
             .team-img {
                 width: 180px;
                 height: 180px;
-            }
-
-            #contributions {
-                font-size: 14px;
             }
         }
     </style>
@@ -156,7 +94,7 @@
         <h1>About Us</h1>
 
         <section id="about-intro">
-            <p>Curious about how it all works? Explore our code on <a href="https://github.com/ac-i2i-engineering/access-amherst">Github</a>. Have suggestions? We’d love to hear them! Feel free to reach out to any of us—your feedback means a lot.</p>
+            <p>Curious about how it all works? Explore our code on <a href="https://github.com/ac-i2i-engineering/access-amherst">GitHub</a>. Have suggestions? We’d love to hear them! Feel free to reach out to any of us—your feedback means a lot.</p>
             <br>
             <p>This project started with a simple goal: making it easier for everyone on campus to stay connected. The idea came from the frustration of not having one central place to find out what’s happening at Amherst. While the Daily Mammoth, the Hub, and other sources provide valuable information, they’re scattered and inconsistent. We wanted to change that by creating a single platform to bring everything together.</p>
             <br>
@@ -168,52 +106,39 @@
         </section>
 
         <section id="about-team">
-            <h2>Engineering Team</h2>
-            <h3 id="contributions"><a href="https://github.com/ac-i2i-engineering/access-amherst/graphs/contributors">See Our Individual Contributions</a></h3>
+            <h2>Our Team</h2>
 
             <div id="team-cards">
                 <div class="team-card">
-                    <img class="team-img" src="{% static 'dhyeymavani25.png' %}" alt="Engineering Team Lead">
-                    <p class="team-name">Dhyey Mavani '25</p>
-                    <p class="team-role">Executive Director of Engineering</p>
+                    <img class="team-img" src="{% static 'shreyahegde26.jpg' %}" alt="Founder">
+                    <p class="team-name">Shreya Hegde '26</p>
+                    <p class="team-role">Founder</p>
                 </div>
 
                 <div class="team-card">
-                    <img class="team-img" src="{% static 'liamdavis27.png' %}" alt="Engineering Team Lead">
+                    <img class="team-img" src="{% static 'dhyeymavani25.png' %}" alt="Engineering Lead">
+                    <p class="team-name">Dhyey Mavani '25</p>
+                    <p class="team-role">Engineering Lead</p>
+                </div>
+
+                <div class="team-card">
+                    <img class="team-img" src="{% static 'liamdavis27.png' %}" alt="Senior Engineer">
                     <p class="team-name">Liam Davis '27</p>
                     <p class="team-role">Senior Engineer</p>
                 </div>
 
                 <div class="team-card">
-                    <img class="team-img" src="{% static 'ryanji26.JPG' %}" alt="Engineering Team Lead">
+                    <img class="team-img" src="{% static 'ryanji26.JPG' %}" alt="Senior Engineer">
                     <p class="team-name">Ryan Ji '26</p>
                     <p class="team-role">Senior Engineer</p>
                 </div>
 
                 <div class="team-card">
-                    <img class="team-img" src="{% static 'thuhoang28.jpg' %}" alt="Engineering Team Lead">
+                    <img class="team-img" src="{% static 'thuhoang28.jpg' %}" alt="UI/UX Designer">
                     <p class="team-name">Thu Hoang '28</p>
                     <p class="team-role">UI/UX Designer</p>
                 </div>
             </div>
-
-            <h2 style="margin-top: 60px;">Founder</h2>
-
-            <div id="founder-card">
-                <div id="founder-profile">
-                    <img class="team-img founder-img" src="{% static 'shreyahegde26.jpg' %}" alt="Engineering Team Lead">
-                    <p class="team-name">Shreya Hegde '26</p>
-                    <p class="team-role">Engineer</p>
-                </div>
-                <p>"When I noticed that Amherst could sometimes feel isolating and that students struggled to stay informed about campus events, I felt motivated to help. I came up with the idea to create a website with an events map and calendar to bring students closer to campus life. I requested senate funding as a senator, worked with i2i's engineering team to build the product, and contacted IT, SEL, and the communications offices to discuss future plans. Our team created something to make it easier for everyone to stay connected."
-                </p>
-            </div>
-            <br>
-            <p>We are a group of students from Amherst College who has come together to create Amherst Connect. Led by Dhyey Mavani'25, the team's goal is to write clean, efficient code and conduct design reviews that powers a platform designed to enhance student life and improve access to campus events.</p>
-            <br>
-            <p>Throughout the development process, we worked closely to brainstorm, design, and refine every aspect of the application. Our teamwork was pivotal in bringing Amherst Connect to life, as each of us brought unique skills and perspectives that enriched the project. We collaborated to ensure that the platform was user-friendly, with clear, streamlined event updates that make navigating campus activities simple and intuitive.</p>
-            <br>            
-            <p>Through our combined effort, Amherst Connect is more than just an application—it’s a testament to what we can achieve when we come together to support our community. We are proud to have built a resource that we hope will foster a greater sense of connection and engagement among students at Amherst College.</p>
         </section>
     </main>
 </body>
